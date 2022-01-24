@@ -14,6 +14,7 @@ public class TerrainMesh : MonoBehaviour
     public float lacunarity = 2;
 
     Mesh mesh;
+    MeshCollider col;
 
     Vector3[] vertices;
     int[] triangles;
@@ -25,12 +26,16 @@ public class TerrainMesh : MonoBehaviour
 
     void Start()
     {
+        col = gameObject.GetComponent<MeshCollider>();
+
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
 
         CreateShape();
         GenerateTerrain();
         UpdateMesh();
+
+        col.sharedMesh = mesh;
     }
 
     //uses Noise to generate heights for each vertex
