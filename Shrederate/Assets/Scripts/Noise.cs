@@ -5,9 +5,9 @@ using UnityEngine;
 public static class Noise 
 {
     //returns a float[,] with continuous perlin noise
-    public static float[,] GenerateNoise(int mapWidth, int mapHeight, float scale, float perlinSeed, int octaves, float persistence, float lacunarity) { 
+    public static float[,] GenerateNoise(int mapWidth, float scale, Vector2 perlinSeed, int octaves, float persistence, float lacunarity, float ridgeSmoothing) { 
 
-        float[,] noiseMap = new float[mapWidth, mapHeight];
+        float[,] noiseMap = new float[mapWidth, mapWidth];
 
         //to avoid dividing by 0
         if(scale <= 0)
@@ -19,8 +19,8 @@ public static class Noise
         float maxNoiseHeight = float.MinValue;
         float minNoiseHeight = float.MaxValue;
 
-        //y and x loop over the array, i loops over noise octaves
-        for(int y = 0; y < mapHeight; y++)
+        //loop through each point in matrix
+        for(int y = 0; y < mapWidth; y++)
         {
             for(int x = 0; x < mapWidth; x++)
             {
@@ -28,28 +28,39 @@ public static class Noise
                 float frequency = 1;
                 float noiseHeight = 0;
 
-                //add noise for each octave
+                //loop through octaves
                 for(int i = 0; i < octaves; i++)
                 {
                     float sampleX = x / scale * frequency;
                     float sampleY = y / scale * frequency;
 
-                    float perlinValue = 1-Mathf.Abs(Mathf.PerlinNoise(sampleX + perlinSeed/scale, sampleY + perlinSeed/scale) * 2 - 1);
+                    float perlinValue = SmoothMin(.9f, 1-Mathf.Abs(Mathf.PerlinNoise(sampleX + perlinSeed.x/scale, sampleY + perlinSeed.y/scale) * 2 - 1), ridgeSmoothing);
+                 
                     noiseHeight += perlinValue * amplitude;
                     amplitude *= persistence;
                     frequency *= lacunarity;
 
                 }
 
+                //find highest point
                 if(noiseHeight > maxNoiseHeight) maxNoiseHeight = noiseHeight;
                 else if(noiseHeight < minNoiseHeight) minNoiseHeight = noiseHeight;
 
+                //add point to matrix
                 noiseMap[x, y] = noiseHeight;       
             }
         }
 
+        //returns the min between a and b, smoothed by a factor of k
+        //used for smoothing ridges
+        float SmoothMin(float a, float b, float k)
+        {
+            float h = Mathf.Clamp01((b - a + k) / (2 * k));
+            return a * h + b * (1 - h) - k * h * (1 - h);
+        }
+
         //normalize values and flatten edges
-        for (int y = 0; y < mapHeight; y++)
+        for (int y = 0; y < mapWidth; y++)
         {
             for (int x = 0; x < mapWidth; x++)
             {
@@ -61,18 +72,17 @@ public static class Noise
             }
         }
 
-        //check if the noise is centered, if not, regenerate noiseMap. move noise sample by scale/5
+        //check if the noise is centered, if not, regenerate noiseMap. move noise sample so that peak is in the middle
+        //TODO: confirm that the centering is actually working. Might just be moving randomly if I screwed up the adjustment
         if (!CheckMaxCentered(noiseMap, 0.1f))
-            noiseMap = GenerateNoise(mapWidth, mapHeight, scale, perlinSeed + (scale/5), octaves, persistence, lacunarity);
+            noiseMap = GenerateNoise(mapWidth, scale, perlinSeed + maxPoint(noiseMap) - new Vector2((mapWidth/2),(mapWidth/2)), octaves, persistence, lacunarity, ridgeSmoothing);
 
         return noiseMap;
     }
 
-    //checks that the largest value in map is within maxPercentFromCenter from the centermost point in
-    //maxPercentFromCenter should be around 0.1f
-    public static bool CheckMaxCentered(float[,] map, float maxPercentFromCenter)
+    //returns the highest point on the map
+    public static Vector2 maxPoint(float[,] map)
     {
-        //find the max
         float maxValue = 0;
         int[] maxPosition = new int[2];
 
@@ -89,7 +99,16 @@ public static class Noise
             }
         }
 
-        if(DistanceToCenter(maxPosition[0], maxPosition[1], map) < maxPercentFromCenter) return true;
+        return new Vector2(maxPosition[0], maxPosition[1]);
+    }
+
+    //checks that the largest value in map is within maxPercentFromCenter from the centermost point in
+    //maxPercentFromCenter should be around 0.1f
+    public static bool CheckMaxCentered(float[,] map, float maxPercentFromCenter)
+    {
+        Vector2 max = maxPoint(map);
+
+        if(DistanceToCenter((int)max.x, (int)max.y, map) < maxPercentFromCenter) return true;
         else return false;
     }
 
