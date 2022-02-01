@@ -155,14 +155,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6755ca3622c247d478474c52b861240e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapWidth: 100
-  mapHeight: 100
-  vectorSpacing: 10
-  noiseScale: 75
-  noiseAmplitude: 600
+  mapWidth: 2400
+  vectorSpacing: 2
+  noiseScale: 750
+  noiseAmplitude: 1000
   octaves: 4
-  persistence: 0.35
-  lacunarity: 2
+  persistence: 0.2
+  lacunarity: 2.5
+  ridgeSmoothing: 0.3
+  numChunks: 10
+  chunkPrefab: {fileID: 3969048430564252616, guid: 5f8be0ef8f165cd48b84eb6f859b7904, type: 3}
 --- !u!4 &189199852
 Transform:
   m_ObjectHideFlags: 0
@@ -526,7 +528,7 @@ GameObject:
   - component: {fileID: 2077553235}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -544,7 +546,7 @@ CharacterController:
   serializedVersion: 2
   m_Height: 2
   m_Radius: 0.5
-  m_SlopeLimit: 45
+  m_SlopeLimit: 80
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
@@ -568,7 +570,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: eaa3a17e9dbbed447a1a7a2b8bee0878, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -631,6 +633,6 @@ MonoBehaviour:
   gravity: 10
   fallSpeed: 0
   maxFallSpeed: 1
-  speed: 6
+  speed: 21.22
   turnSmoothTime: 0.1
   turnSpeed: 1
