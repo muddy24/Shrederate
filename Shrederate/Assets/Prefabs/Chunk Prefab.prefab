@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44a6dda130bc3cb4b9327f1659841b79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LOD: 1
 --- !u!64 &4140048981984697987
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -53,7 +54,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3969048430564252616}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d8527eabc57fb7e47867eccffc6da3bf, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -87,7 +88,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: eaa3a17e9dbbed447a1a7a2b8bee0878, type: 2}
+  - {fileID: 2100000, guid: 40dbfd89233d2c9438bd2cfe639f3d05, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
