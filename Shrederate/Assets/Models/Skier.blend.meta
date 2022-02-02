@@ -1,0 +1,1039 @@
+fileFormatVersion: 2
+guid: 2157180856e7c9e47b961038a14b8585
+ModelImporter:
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      74: -623603649343465320
+    second: T Pose
+  - first:
+      74: -7407879673983229064
+    second: Look Left
+  - first:
+      74: 2090350697607544009
+    second: Look Up
+  - first:
+      74: -8942796110829551447
+    second: Look Down
+  - first:
+      74: 7030316761546987328
+    second: Fwd Slow
+  - first:
+      74: -7977500596308723679
+    second: Fwd Fast
+  - first:
+      74: -1891260892074715185
+    second: Turn Right
+  - first:
+      74: -6489420768036183385
+    second: Turn Left
+  - first:
+      74: -4399193934391614938
+    second: Look Right
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black
+    second: {fileID: 2100000, guid: b3b9d3cffe9ee224c945fa016898f137, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grey
+    second: {fileID: 2100000, guid: 93dd21db99587354b9abe1fad197a8dd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grey.002
+    second: {fileID: 2100000, guid: 93dd21db99587354b9abe1fad197a8dd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tint
+    second: {fileID: 2100000, guid: 602b80ddcf8904349b2de841f6c2569c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: blue
+    second: {fileID: 2100000, guid: 141b242fa72bdb94e84c769839be5d8f, type: 2}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: Armature
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 0
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: T Pose
+      takeName: Scene
+      internalID: 0
+      firstFrame: 1
+      lastFrame: 1.1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: Look Left
+      takeName: Scene
+      internalID: 0
+      firstFrame: 3
+      lastFrame: 3.1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 0
+      - path: Armature/Spine Lower
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Binding.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Boot Base.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Boot Liner.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Boot Shell.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Bootstraps.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Foot.L
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Foot.L/Foot.L_end
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Ski.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Binding
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Boot Base
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Boot Liner
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Boot Shell
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Bootstraps
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Foot.R
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Foot.R/Foot.R_end
+        weight: 0
+      - path: 'Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Ski '
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L/Pole L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L/Pole.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L/Pole.L/Pole.L_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R/Pole R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R/Pole.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R/Pole.R/Pole.R_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.L/Clavicle.L_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.R/Clavicle.R_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head
+        weight: 1
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Chin Strap
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Ear Pads
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Goggle Rim
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Goggle Screen
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Goggle Strap
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Head_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Helmet
+        weight: 0
+      - path: Body
+        weight: 0
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 3
+    - serializedVersion: 16
+      name: Look Up
+      takeName: Scene
+      internalID: 0
+      firstFrame: 7
+      lastFrame: 7.0999994
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 0
+      - path: Armature/Spine Lower
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Binding.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Boot Base.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Boot Liner.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Boot Shell.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Bootstraps.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Foot.L
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Foot.L/Foot.L_end
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Ski.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Binding
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Boot Base
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Boot Liner
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Boot Shell
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Bootstraps
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Foot.R
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Foot.R/Foot.R_end
+        weight: 0
+      - path: 'Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Ski '
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L/Pole L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L/Pole.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L/Pole.L/Pole.L_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R/Pole R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R/Pole.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R/Pole.R/Pole.R_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.L/Clavicle.L_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.R/Clavicle.R_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head
+        weight: 1
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Chin Strap
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Ear Pads
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Goggle Rim
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Goggle Screen
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Goggle Strap
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Head_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Helmet
+        weight: 0
+      - path: Body
+        weight: 0
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: Look Down
+      takeName: Scene
+      internalID: 0
+      firstFrame: 9
+      lastFrame: 9.1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 0
+      - path: Armature/Spine Lower
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Binding.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Boot Base.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Boot Liner.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Boot Shell.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Bootstraps.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Foot.L
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Foot.L/Foot.L_end
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Ski.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Binding
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Boot Base
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Boot Liner
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Boot Shell
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Bootstraps
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Foot.R
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Foot.R/Foot.R_end
+        weight: 0
+      - path: 'Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Ski '
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L/Pole L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L/Pole.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L/Pole.L/Pole.L_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R/Pole R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R/Pole.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R/Pole.R/Pole.R_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.L/Clavicle.L_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.R/Clavicle.R_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head
+        weight: 1
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Chin Strap
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Ear Pads
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Goggle Rim
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Goggle Screen
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Goggle Strap
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Head_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Helmet
+        weight: 0
+      - path: Body
+        weight: 0
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: Fwd Slow
+      takeName: Scene
+      internalID: 0
+      firstFrame: 11
+      lastFrame: 11.1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: Fwd Fast
+      takeName: Scene
+      internalID: 0
+      firstFrame: 13
+      lastFrame: 13.1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: Turn Right
+      takeName: Scene
+      internalID: 0
+      firstFrame: 15
+      lastFrame: 15.1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: Turn Left
+      takeName: Scene
+      internalID: 0
+      firstFrame: 17
+      lastFrame: 17.1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: Look Right
+      takeName: Scene
+      internalID: 0
+      firstFrame: 5
+      lastFrame: 5.1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 0
+      - path: Armature/Spine Lower
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Binding.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Boot Base.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Boot Liner.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Boot Shell.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Bootstraps.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Foot.L
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Foot.L/Foot.L_end
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.L/Leg Lower.L/Ski.001
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Binding
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Boot Base
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Boot Liner
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Boot Shell
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Bootstraps
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Foot.R
+        weight: 0
+      - path: Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Foot.R/Foot.R_end
+        weight: 0
+      - path: 'Armature/Spine Lower/Leg Upper.R/Leg Lower.R/Ski '
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L/Pole L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L/Pole.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.L/Arm Lower.L/Pole.L/Pole.L_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R/Pole R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R/Pole.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Arm Upper.R/Arm Lower.R/Pole.R/Pole.R_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.L
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.L/Clavicle.L_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.R
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Clavicle.R/Clavicle.R_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head
+        weight: 1
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Chin Strap
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Ear Pads
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Goggle Rim
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Goggle Screen
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Goggle Strap
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Head_end
+        weight: 0
+      - path: Armature/Spine Lower/Spine Upper/Neck/Head/Helmet
+        weight: 0
+      - path: Body
+        weight: 0
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 1
+    maxBonesPerVertex: 3
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: Skier(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Body
+      parentName: Skier(Clone)
+      position: {x: -0, y: 2.0086884, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Armature
+      parentName: Skier(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Spine Lower
+      parentName: Armature
+      position: {x: 0, y: 0, z: 0.7157682}
+      rotation: {x: 0.7071068, y: -0.00000008429372, z: -0.0000000842937, w: 0.7071067}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Spine Upper
+      parentName: Spine Lower
+      position: {x: -0, y: 0.29410744, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Neck
+      parentName: Spine Upper
+      position: {x: -0, y: 0.41903752, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Head
+      parentName: Neck
+      position: {x: -0, y: 0.09166443, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Helmet
+      parentName: Head
+      position: {x: -0, y: 0.5628444, z: 0}
+      rotation: {x: -0.7071068, y: 0.0000000842937, z: 0.00000008429372, w: 0.7071067}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Goggle Rim
+      parentName: Head
+      position: {x: -0, y: 0.30829513, z: 0}
+      rotation: {x: 0.000000021855696, y: 0.00000011920929, z: -2.7164243e-15, w: 1}
+      scale: {x: 0.22633511, y: 0.22633511, z: 0.22633511}
+    - name: Ear Pads
+      parentName: Head
+      position: {x: -0, y: -1.445844, z: 0}
+      rotation: {x: 0.70587265, y: 0.04175859, z: -0.041758586, w: 0.7058727}
+      scale: {x: -1, y: -1, z: -1}
+    - name: Goggle Strap
+      parentName: Head
+      position: {x: -0, y: -1.445844, z: 0}
+      rotation: {x: -0.7071068, y: 0.0000000842937, z: 0.00000008429372, w: 0.7071067}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Chin Strap
+      parentName: Head
+      position: {x: -0, y: -1.445844, z: 0}
+      rotation: {x: 1, y: 8.889029e-15, z: -0.00000011920929, w: 0.0000000754979}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Goggle Screen
+      parentName: Head
+      position: {x: -0, y: 0.30829513, z: 0}
+      rotation: {x: 0.000000021855696, y: 0.00000011920929, z: -2.7164243e-15, w: 1}
+      scale: {x: 0.22633511, y: 0.22633511, z: 0.22633511}
+    - name: Head_end
+      parentName: Head
+      position: {x: -0, y: 0.79442513, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Arm Upper.L
+      parentName: Spine Upper
+      position: {x: 0.23707187, y: 0.37814337, z: -0.00000014443322}
+      rotation: {x: -0.00000012603567, y: 0.00000016673454, z: -0.69063175, w: 0.7232066}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Arm Lower.L
+      parentName: Arm Upper.L
+      position: {x: 0.000000007450588, y: 0.25392175, z: -7.1054274e-15}
+      rotation: {x: 0.0000000855997, y: -0.00000012336037, z: -0.02303398, w: 0.9997347}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pole L
+      parentName: Arm Lower.L
+      position: {x: -0.0052696466, y: 0.36877412, z: -0.000017669001}
+      rotation: {x: 0.7071067, y: 0.7071068, z: -0.000000053385083, w: -0.00000005338507}
+      scale: {x: -0.052249607, y: -0.052249607, z: -0.052249607}
+    - name: Pole.L
+      parentName: Arm Lower.L
+      position: {x: -3.3084646e-14, y: 0.37538767, z: -1.2308188e-14}
+      rotation: {x: 0.7026176, y: -1.262646e-14, z: -0.00000013680469, w: 0.71156764}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: Pole.L_end
+      parentName: Pole.L
+      position: {x: -0, y: 0.25659266, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Clavicle.L
+      parentName: Spine Upper
+      position: {x: 0.027748717, y: 0.33398598, z: -0.08569078}
+      rotation: {x: 0.4840172, y: -0.4787368, z: 0.43513405, w: 0.58923405}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: Clavicle.L_end
+      parentName: Clavicle.L
+      position: {x: -0, y: 0.17620942, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Clavicle.R
+      parentName: Spine Upper
+      position: {x: -0.027748758, y: 0.33398598, z: -0.08569077}
+      rotation: {x: 0.4840164, y: 0.47873524, z: -0.43513554, w: 0.58923495}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Clavicle.R_end
+      parentName: Clavicle.R
+      position: {x: -0, y: 0.17620942, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Arm Upper.R
+      parentName: Spine Upper
+      position: {x: -0.23707187, y: 0.37814337, z: -0.000000031388538}
+      rotation: {x: 0.000000038623803, y: 0.000000005691388, z: 0.69063175, w: 0.7232066}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Arm Lower.R
+      parentName: Arm Upper.R
+      position: {x: -0.000000007450588, y: 0.25392175, z: -1.4210855e-14}
+      rotation: {x: 0.00000008559965, y: 0.00000012336038, z: 0.02303398, w: 0.9997347}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pole R
+      parentName: Arm Lower.R
+      position: {x: 0.0052696466, y: 0.36877412, z: -0.000017669001}
+      rotation: {x: 0.0000000842937, y: -0.00000008429371, z: -0.7071068, w: 0.7071067}
+      scale: {x: 0.052249607, y: 0.052249607, z: 0.052249607}
+    - name: Pole.R
+      parentName: Arm Lower.R
+      position: {x: 3.3084646e-14, y: 0.37538767, z: 1.4293681e-21}
+      rotation: {x: 0.7026176, y: 1.262646e-14, z: 0.00000013680469, w: 0.71156764}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: Pole.R_end
+      parentName: Pole.R
+      position: {x: -0, y: 0.25659266, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Leg Upper.L
+      parentName: Spine Lower
+      position: {x: 0.1484091, y: -0.0661608, z: 0.0000000040900296}
+      rotation: {x: 0.9488585, y: -0.000000118060115, z: -0.31570166, w: -0.00000026400326}
+      scale: {x: 0.99999994, y: 1, z: 0.99999994}
+    - name: Leg Lower.L
+      parentName: Leg Upper.L
+      position: {x: 0.0000000031272247, y: 0.24577707, z: -0.0000000059528524}
+      rotation: {x: -0.0000002782587, y: -0.00000001490116, z: -0.000000028676064, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Binding.001
+      parentName: Leg Lower.L
+      position: {x: -0.100686304, y: 0.25110734, z: -0.13048755}
+      rotation: {x: -0.6709444, y: 0.22323474, z: 0.22323479, w: 0.6709443}
+      scale: {x: -0.071274064, y: -0.071274064, z: -0.07127406}
+    - name: Boot Base.001
+      parentName: Leg Lower.L
+      position: {x: 0.14043866, y: 0.29659587, z: 0.20227766}
+      rotation: {x: 0.22323453, y: 0.67094433, z: 0.6709444, w: -0.22323455}
+      scale: {x: -0.0936939, y: -0.0936939, z: -0.017926695}
+    - name: Boot Liner.001
+      parentName: Leg Lower.L
+      position: {x: 0.0036761686, y: -0.12848592, z: 0.0034984425}
+      rotation: {x: -0.6709444, y: 0.2232347, z: 0.22323471, w: 0.67094433}
+      scale: {x: -0.087297656, y: -0.087297656, z: -0.08729765}
+    - name: Boot Shell.001
+      parentName: Leg Lower.L
+      position: {x: -0.0025200546, y: 0.09658785, z: 0.0018856004}
+      rotation: {x: -0.6709444, y: 0.2232347, z: 0.22323471, w: 0.67094433}
+      scale: {x: -0.105235115, y: -0.105235115, z: -0.1052351}
+    - name: Bootstraps.001
+      parentName: Leg Lower.L
+      position: {x: 0.10429679, y: 0.32166082, z: 0.15539312}
+      rotation: {x: -0.6709444, y: 0.2232347, z: 0.22323471, w: 0.67094433}
+      scale: {x: -0.06649998, y: -0.01789864, z: -0.06649997}
+    - name: Ski.001
+      parentName: Leg Lower.L
+      position: {x: 0.04899843, y: 0.32909685, z: 0.06301075}
+      rotation: {x: 0.6709444, y: 0.22323471, z: -0.2232347, w: 0.67094433}
+      scale: {x: 0.06741902, y: 1.2928443, z: 1}
+    - name: Foot.L
+      parentName: Leg Lower.L
+      position: {x: -3.5010617e-10, y: 0.3099132, z: -0.0000000028364542}
+      rotation: {x: 0.56060606, y: -0.000000047775956, z: -0.41948366, w: 0.71397084}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Foot.L_end
+      parentName: Foot.L
+      position: {x: -0, y: 0.52127004, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Leg Upper.R
+      parentName: Spine Lower
+      position: {x: -0.1484091, y: -0.0661608, z: 0.000000074857}
+      rotation: {x: 0.9488586, y: 0.00000011806014, z: 0.31570145, w: -0.00000026400332}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: Leg Lower.R
+      parentName: Leg Upper.R
+      position: {x: -0.0000000031271874, y: 0.24577704, z: -0.0000000059527743}
+      rotation: {x: -0.00000027825877, y: 0.00000004470348, z: 0.000000028676126, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: 'Ski '
+      parentName: Leg Lower.R
+      position: {x: -0.048998438, y: 0.32909688, z: 0.06301075}
+      rotation: {x: -0.67094433, y: -0.22323468, z: -0.22323474, w: 0.6709443}
+      scale: {x: -0.06741902, y: -1.2928442, z: -1.0000001}
+    - name: Boot Shell
+      parentName: Leg Lower.R
+      position: {x: 0.0025200695, y: 0.09658785, z: 0.0018856078}
+      rotation: {x: 0.6709444, y: -0.2232347, z: 0.22323471, w: 0.67094433}
+      scale: {x: 0.10523511, y: 0.10523511, z: 0.105235115}
+    - name: Boot Base
+      parentName: Leg Lower.R
+      position: {x: -0.14043865, y: 0.2965959, z: 0.20227769}
+      rotation: {x: 0.22323443, y: 0.6709445, z: -0.6709443, w: 0.22323449}
+      scale: {x: 0.09369389, y: 0.09369389, z: 0.017926697}
+    - name: Boot Liner
+      parentName: Leg Lower.R
+      position: {x: -0.0036761537, y: -0.12848595, z: 0.0034984574}
+      rotation: {x: 0.6709444, y: -0.22323474, z: 0.22323479, w: 0.6709443}
+      scale: {x: 0.08729765, y: 0.08729765, z: 0.087297656}
+    - name: Bootstraps
+      parentName: Leg Lower.R
+      position: {x: -0.104296796, y: 0.32166088, z: 0.15539312}
+      rotation: {x: 0.6709444, y: -0.22323471, z: 0.2232347, w: 0.67094433}
+      scale: {x: 0.06649997, y: 0.01789864, z: 0.06649998}
+    - name: Binding
+      parentName: Leg Lower.R
+      position: {x: 0.1006863, y: 0.25110736, z: -0.13048753}
+      rotation: {x: 0.6709444, y: -0.2232347, z: 0.22323471, w: 0.67094433}
+      scale: {x: 0.071274064, y: 0.071274064, z: 0.071274064}
+    - name: Foot.R
+      parentName: Leg Lower.R
+      position: {x: 3.5009895e-10, y: 0.3099132, z: -0.000000002836455}
+      rotation: {x: 0.56060606, y: 0.000000020843382, z: 0.4194837, w: 0.7139708}
+      scale: {x: 0.99999994, y: 1, z: 1}
+    - name: Foot.R_end
+      parentName: Foot.R
+      position: {x: -0, y: 0.52127004, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

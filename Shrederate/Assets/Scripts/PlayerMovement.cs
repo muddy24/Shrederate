@@ -4,73 +4,84 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    //public CharacterController controller;
     public Rigidbody rb;
-    public CapsuleCollider col;
+    public SphereCollider col;
+    public Animator anim;
+    public GameObject graphics;
 
     //gravity stuff
     public bool isGrounded = false;
-    public bool hasGravity = true;
     public float gravity = 10;
 
     //movement stuff
-    private Vector3 velocity;
-    public float speed = .05f;
+    private float verticalInput, horizontalInput;
     public float maxSpeed = 20f;
-    float turnSmoothVelocity;
-    public float turnSmoothTime = 0.1f;
-    public float turnSpeed = 1;
+    public float turnSmoothTime = 0.3f;
+    public float turnTargetAngle = 0;
+    public float currentTurnVelocity;
+    public float turnStrength = 1;
 
     // Start is called before the first frame update
     void Start()
     {
-        velocity = Vector3.zero;
-        //controller = gameObject.GetComponent<CharacterController>();
-        rb = GetComponent<Rigidbody>();
-        col = GetComponent<CapsuleCollider>();
+        rb = GetComponentInChildren<Rigidbody>();
+        col = GetComponentInChildren<SphereCollider>();
+        anim = GetComponentInChildren<Animator>();
+
+        rb.transform.parent = null;
+    }
+
+    private void FixedUpdate()
+    {
+        if(verticalInput > 0)
+        {
+            rb.AddForce(transform.forward * verticalInput * 10);
+        }
+        if(horizontalInput != 0)
+        {
+            rb.AddForce(transform.right * turnTargetAngle * rb.velocity.magnitude * turnStrength * Time.deltaTime);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        if(rb.velocity.magnitude > maxSpeed)
-        {
-            rb.velocity = rb.velocity.normalized;
-            rb.velocity *= maxSpeed;
-        }
-        //direction
-        float targetAngle;
+        //get input
+        verticalInput = Input.GetAxisRaw("Vertical");
+        horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-
-        transform.Rotate(new Vector3(0, horizontal * (360 / turnSpeed) * Time.deltaTime, 0));
-        
-        
         checkGrounded();
 
         //movement
         if (isGrounded)
         {
-            rb.AddForce(new Vector3(transform.forward.x, 0, transform.forward.z) * vertical * speed, ForceMode.Acceleration);
-
+            //face direction
             RaycastHit hit;
-            Physics.Raycast(col.center, Vector3.down, out hit, Mathf.Infinity);
+            Physics.Raycast(col.transform.position, Vector3.down, out hit, Mathf.Infinity);
+            transform.up = GetMeshColliderNormal(hit);
+            turnTargetAngle = Mathf.SmoothDampAngle(turnTargetAngle, 90 * horizontalInput, ref currentTurnVelocity, turnSmoothTime);
+            transform.Rotate(new Vector3(0, Vector3.SignedAngle(transform.forward, rb.velocity, transform.up) + turnTargetAngle, 0));
 
-            float dragForce = 1-Vector3.Dot(rb.velocity, transform.right);
-            rb.AddForce(transform.right * dragForce * rb.velocity.magnitude);
+            //animation
+            anim.SetFloat("Speed", rb.velocity.magnitude/maxSpeed);
+            anim.SetFloat("Turn", turnTargetAngle/90);
+
+            //go to rigidbody contact with ground
+            transform.position = rb.transform.position - (GetMeshColliderNormal(hit) * col.radius);
+      
+        }
+        else
+        {
+            //follow rigidbody
+            transform.position = rb.transform.position + Vector3.down * col.radius;
         }
 
-        Debug.DrawRay(transform.position, rb.velocity, Color.green, 0.1f);
-        Debug.DrawRay(transform.position, transform.right, Color.blue, 0.1f);
-        
     }
 
     private void checkGrounded()
     {
         RaycastHit hit;
-        Physics.Raycast(col.transform.position, Vector3.down, out hit, col.height + .1f);
+        Physics.Raycast(col.transform.position, Vector3.down, out hit, col.radius *2);
 
         if(hit.collider != null)
         {
@@ -83,7 +94,9 @@ public class PlayerMovement : MonoBehaviour
     {
         //get mesh data
         MeshCollider col = (MeshCollider)hit.collider;
-        Mesh m = col.sharedMesh;
+        Mesh m = col.sharedMesh;         
+        
+
         Vector3[] normals = m.normals;
         int[] triangles = m.triangles;
 

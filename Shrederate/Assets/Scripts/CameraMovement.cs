@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    GameObject player;
+    PlayerMovement pm;
 
-    public float cameraDistance = 10;
+    public float cameraDistance = 5;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = transform.parent.gameObject;
+        pm = transform.parent.gameObject.GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 velocityDirection = player.GetComponent<Rigidbody>().velocity.normalized;
+        Vector3 velocityDirection = pm.rb.velocity.normalized;
 
         if(velocityDirection.magnitude > 0.01f)
         {
-            transform.position = player.transform.position - (velocityDirection * cameraDistance);
-            transform.forward = (player.transform.position - transform.position);
+            transform.position = pm.transform.position - (velocityDirection * cameraDistance) + pm.transform.up * cameraDistance/3;
+            transform.forward = (pm.transform.position - transform.position);
         }
     }
 }
