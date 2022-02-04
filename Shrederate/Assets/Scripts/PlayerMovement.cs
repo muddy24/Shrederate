@@ -74,6 +74,8 @@ public class PlayerMovement : MonoBehaviour
         {
             //follow rigidbody
             transform.position = rb.transform.position + Vector3.down * col.radius;
+
+
         }
 
     }
@@ -81,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
     private void checkGrounded()
     {
         RaycastHit hit;
-        Physics.Raycast(col.transform.position, Vector3.down, out hit, col.radius *2);
+        Physics.Raycast(col.transform.position, Vector3.down, out hit, col.radius + .1f);
 
         if(hit.collider != null)
         {

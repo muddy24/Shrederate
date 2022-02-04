@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4140048981984697987}
   - component: {fileID: 5546949094969459550}
   - component: {fileID: 7333617677170692818}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Chunk Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 40dbfd89233d2c9438bd2cfe639f3d05, type: 2}
+  - {fileID: 2100000, guid: 348a5be8eadfe5f4d83e6fa0ded7e0f6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
