@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2053679621216876972
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2027179931090100173}
+  m_Layer: 0
+  m_Name: AirPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2027179931090100173
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053679621216876972}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4126071332683754576}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3625635762237963160
 GameObject:
   m_ObjectHideFlags: 0
@@ -49,6 +79,7 @@ MonoBehaviour:
   col: {fileID: 0}
   anim: {fileID: 0}
   graphics: {fileID: 7918245559677461430}
+  airPivot: {fileID: 2053679621216876972}
   isGrounded: 0
   gravity: 10
   maxSpeed: 20
@@ -56,6 +87,7 @@ MonoBehaviour:
   turnTargetAngle: 0
   currentTurnVelocity: 0
   turnStrength: 1
+  airControl: 1
 --- !u!1 &8452424253687158694
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,5 +281,10 @@ GameObject:
 --- !u!4 &7397323805147003148 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2157180856e7c9e47b961038a14b8585, type: 3}
+  m_PrefabInstance: {fileID: 6999204821386305255}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4126071332683754576 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2855022990286441801, guid: 2157180856e7c9e47b961038a14b8585, type: 3}
   m_PrefabInstance: {fileID: 6999204821386305255}
   m_PrefabAsset: {fileID: 0}

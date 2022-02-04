@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public SphereCollider col;
     public Animator anim;
     public GameObject graphics;
+    public GameObject airPivot;
 
     //gravity stuff
     public bool isGrounded = false;
@@ -21,6 +22,14 @@ public class PlayerMovement : MonoBehaviour
     public float currentTurnVelocity;
     public float turnStrength = 1;
 
+    //air control
+    public float airRotateTime = 1;
+    public float airRotateAngleV = 0;
+    public float airRotateAngleH = 0;
+    float currentAirRotateV;
+    float currentAirRotateH;
+    public float airControl = 180;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +42,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!isGrounded)
+            return;
+
         if(verticalInput > 0)
         {
             rb.AddForce(transform.forward * verticalInput * 10);
@@ -75,6 +87,11 @@ public class PlayerMovement : MonoBehaviour
             //follow rigidbody
             transform.position = rb.transform.position + Vector3.down * col.radius;
 
+            //airRotateAngleH = Mathf.SmoothDamp(airRotateAngleH, horizontalInput * Time.deltaTime, ref currentAirRotateH, airRotateTime);
+            //airRotateAngleV = Mathf.SmoothDamp(airRotateAngleV, verticalInput * Time.deltaTime, ref currentAirRotateV, airRotateTime);
+
+            transform.RotateAround(airPivot.transform.position, transform.right , airControl * verticalInput * Time.deltaTime);
+            transform.RotateAround(airPivot.transform.position, transform.up , airControl * horizontalInput * Time.deltaTime);
 
         }
 
@@ -83,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
     private void checkGrounded()
     {
         RaycastHit hit;
-        Physics.Raycast(col.transform.position, Vector3.down, out hit, col.radius + .1f);
+        Physics.Raycast(col.transform.position, Vector3.down, out hit, col.radius + .5f);
 
         if(hit.collider != null)
         {
