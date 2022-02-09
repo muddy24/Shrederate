@@ -60,10 +60,12 @@ public class PlayerMovement : MonoBehaviour
 
         if(verticalInput > 0)
         {
+            //pushing force
             rb.AddForce(transform.forward * verticalInput * forwardStrength);
         }
         if(horizontalInput != 0)
         {
+            //turning force
             rb.AddForce(transform.right * turnTargetAngle * rb.velocity.magnitude * turnStrength * Time.deltaTime);
         }
     }
@@ -159,6 +161,13 @@ public class PlayerMovement : MonoBehaviour
         //cast down to find approximate ground normal under self
         RaycastHit vertHit;
         Physics.Raycast(col.transform.position, Vector3.down, out vertHit, Mathf.Infinity);
+
+        //this means there's nothing under the player
+        if(vertHit.collider == null)
+        {
+            isGrounded = false;
+            return;
+        }
 
         //cast in normal direction to detect ground 
         RaycastHit normalHit;

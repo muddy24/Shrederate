@@ -5,6 +5,7 @@ using UnityEngine;
 public class TerrainMesh : MonoBehaviour
 {
     GameObject player;
+    public GameObject dirtSemiSphere;
 
     //terrain shape controls
     public int mapWidth = 100;
@@ -15,8 +16,12 @@ public class TerrainMesh : MonoBehaviour
     public float persistence = .5f;
     public float lacunarity = 2;
     public float ridgeSmoothing = 0.5f;
+    public float reshapeEdgeRadiusPercent = 1f; //radius of map edge as a percent of original mesh size
+    public float bowlHeightPercent = 0.5f;
 
-    float noiseSeed = 0;
+    
+
+    //float noiseSeed = 0;
 
     //could use these for a preview, but really they're obsoleted since chunks were implimented
     Mesh mesh;
@@ -30,6 +35,7 @@ public class TerrainMesh : MonoBehaviour
     //chunk stuff
     public int numChunks = 2; //number PER SIDE. MUST BE a divisor of mapWidth
     GameObject[,] chunks;
+    bool[,] isChunkEmpty;
     public GameObject chunkPrefab;
 
     public Vector3 GetVert(int i)
@@ -39,6 +45,11 @@ public class TerrainMesh : MonoBehaviour
 
     void Start()
     {
+        //put the dirt ball in its place
+        float halfMapSize = mapWidth * vectorSpacing / 2;
+        dirtSemiSphere.transform.position = new Vector3(halfMapSize, 0, halfMapSize);
+        dirtSemiSphere.transform.localScale = new Vector3(1,1,bowlHeightPercent) * halfMapSize * reshapeEdgeRadiusPercent;
+
         player = GameObject.FindWithTag("Player");
 
         col = gameObject.GetComponent<MeshCollider>();
@@ -47,6 +58,14 @@ public class TerrainMesh : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
 
         chunks = new GameObject[numChunks, numChunks];
+        isChunkEmpty = new bool[numChunks, numChunks];
+        for(int x = 0; x < numChunks; x++)
+        {
+            for(int y = 0; y < numChunks; y++)
+            {
+                isChunkEmpty[x, y] = false;
+            }
+        }
 
         CreateShape();
         GenerateTerrain();
@@ -54,8 +73,6 @@ public class TerrainMesh : MonoBehaviour
         //UpdateMesh();
 
         col.sharedMesh = mesh;
-
-       
     }
 
     void Update()
@@ -69,26 +86,38 @@ public class TerrainMesh : MonoBehaviour
         for(int x = 0; x < numChunks; x++)
         {
             for(int y = 0; y < numChunks; y++)
-            {
-                MeshRenderer chunkMR = chunks[x, y].GetComponentInChildren<MeshRenderer>();
-                Vector2 chunkPos = new Vector2(chunkMR.bounds.center.x, chunkMR.bounds.center.z);
+            {               
+                if (!isChunkEmpty[x, y]) //do nothing for empty chunks
+                {
+                    MeshRenderer chunkMR = chunks[x, y].GetComponentInChildren<MeshRenderer>();
+                    Vector2 chunkPos = new Vector2(chunkMR.bounds.center.x, chunkMR.bounds.center.z);
 
-                float dist = Vector2.Distance(chunkPos, playerPos);
+                    float dist = Vector2.Distance(chunkPos, playerPos);
 
-                if (dist < chunkSize * 1)
-                    newLOD = 1;
-                else if (dist < chunkSize * 2)
-                    newLOD = 2;
-                else if (dist < chunkSize * 3)
-                    newLOD = 3;
-                else if (dist < chunkSize * 4)
-                    newLOD = 4;
-                else
-                    newLOD = 5;
+                    if (dist < chunkSize * 1)
+                        newLOD = 1;
+                    else if (dist < chunkSize * 2)
+                        newLOD = 3;
+                    else if (dist < chunkSize * 3)
+                        newLOD = 4;
+                    else if (dist < chunkSize * 4)
+                        newLOD = 5;
+                    else
+                        newLOD = 5;
 
-                if(chunks[x,y].GetComponent<TerrainChunk>().LOD != newLOD)
-                    setChunkMesh(x,y,newLOD);
+                    if (chunks[x, y].GetComponent<TerrainChunk>().LOD != newLOD)
+                        setChunkMesh(x, y, newLOD);
+                }
             }
+        }
+
+        //put player back on top of mountain
+        if(player.transform.position.y < -0.25f * mapWidth * vectorSpacing)
+        {
+            float halfMapSize = mapWidth * vectorSpacing / 2;
+            Rigidbody playerRB = player.GetComponent<PlayerMovement>().rb;
+            playerRB.transform.position = new Vector3(halfMapSize, noiseAmplitude * 1f, halfMapSize);
+            playerRB.velocity = Vector3.zero;
         }
     }
 
@@ -126,9 +155,22 @@ public class TerrainMesh : MonoBehaviour
             }
         }
 
+        //check if mesh is just all points combined under mountain
+        bool vertsAllSame = true;
+        foreach (Vector3 vert in chunkVerts)
+        {
+            if (vert != chunkVerts[0])
+            {
+                vertsAllSame = false;
+                break;
+            }
+        }
+        isChunkEmpty[x, y] = vertsAllSame;
+        if (vertsAllSame)
+            return;
+
         //clear old chunk
-        if (chunks[x, y] != null)
-            Destroy(chunks[x, y]);
+        Destroy(chunks[x, y]);
 
         //add new chunk to chunks matrix
         chunks[x, y] = Instantiate(chunkPrefab, Vector3.zero, Quaternion.identity);
@@ -153,7 +195,7 @@ public class TerrainMesh : MonoBehaviour
             }
         }
 
-        
+        ShapeBottomBowl();
     }
 
     //fills vertices[] with position data to create a flat plane
@@ -176,6 +218,61 @@ public class TerrainMesh : MonoBehaviour
         UpdateTris();
 
         gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
+    }
+
+    //moves points lower than reshapeEdgeStartHeight towards 
+    void ShapeBottomBowl()
+    {
+        
+        int vertexIndex = 0;
+        Vector3 thisVertex;
+        float halfMapSize = mapWidth * vectorSpacing / 2;
+
+        Vector2 center = new Vector2(halfMapSize, halfMapSize);
+        Vector3 centerPoint = new Vector3(halfMapSize, -halfMapSize/5, halfMapSize);
+
+        for (int y = 0; y <= mapWidth; y++)
+        {
+            for (int x = 0; x <= mapWidth; x++)
+            {
+                vertexIndex = (y * (mapWidth + 1)) + x;
+                thisVertex = vertices[vertexIndex];
+
+                if (Vector2.Distance(center, new Vector2(thisVertex.x,thisVertex.z)) > reshapeEdgeRadiusPercent * halfMapSize)
+                {
+                    vertices[vertexIndex] = Vector3.MoveTowards(thisVertex, centerPoint, Vector3.Distance(thisVertex, centerPoint) * .8f);
+
+                    //this method makes the bowl out of the mesh itself but is very buggy
+                    /*float chordMultiplier;
+                    if (Mathf.Abs(thisVertex.x - halfMapSize) > Mathf.Abs(thisVertex.z - halfMapSize))
+                    {
+                        chordMultiplier = Mathf.Abs(halfMapSize / (halfMapSize - thisVertex.x));
+                    }
+                    else
+                        chordMultiplier = Mathf.Abs(halfMapSize / (halfMapSize - thisVertex.z));
+
+                    //distance from center point to edge of square through thisVertex
+                    float chordLength = DistanceToCenterAxis(thisVertex) * chordMultiplier;
+
+                    float outerChordPercentage = (DistanceToCenterAxis(thisVertex) - halfMapSize) / (chordLength - halfMapSize);
+                    float reshapeEdgeRadius = reshapeEdgeRadiusPercent * halfMapSize;
+                    float distFromCenter = (1 - outerChordPercentage) * reshapeEdgeRadius;
+                    float newHeight = bowlHeightPercent * Mathf.Pow(Mathf.Pow(reshapeEdgeRadius, 2) - Mathf.Pow(distFromCenter, 2), .5f);
+                    
+                    Vector3 newPos = Vector3.MoveTowards(new Vector3(halfMapSize, 0, halfMapSize), thisVertex, distFromCenter);
+                    newPos = new Vector3(newPos.x, newPos.y - newHeight, newPos.z);
+
+                    vertices[vertexIndex] = newPos;*/
+
+                }
+            }
+        }
+    }
+
+    public float DistanceToCenterAxis(Vector3 point)
+    {
+        float centerDist = mapWidth * vectorSpacing / 2;
+        return Vector2.Distance(new Vector2(point.x, point.z), new Vector2(centerDist, centerDist));
     }
 
     //fills tris[] with appropriate vertex indices

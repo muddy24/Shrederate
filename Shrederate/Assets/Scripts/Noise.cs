@@ -65,10 +65,10 @@ public static class Noise
             for (int x = 0; x < mapWidth; x++)
             {
                 //flattens the edges of the mountain
-                float flattenMultiplier = 1 - (DistanceToCenter(x, y, noiseMap) * 1.5f);
+                float flattenMultiplier = 1 - (DistanceToCenter(x, y, noiseMap) * 1.44f);
                 if(flattenMultiplier < 0) flattenMultiplier = 0;
 
-                noiseMap[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y]) * (1-(Mathf.Cos(Mathf.Lerp(0,3.14f,flattenMultiplier)) * .5f + .5f));
+                noiseMap[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y]) * flattenMultiplier;//(1-(Mathf.Cos(Mathf.Lerp(0,3.14f,flattenMultiplier)) * .5f + .5f));
             }
         }
 
@@ -77,7 +77,7 @@ public static class Noise
         if (!CheckMaxCentered(noiseMap, 0.1f))
             noiseMap = GenerateNoise(mapWidth, scale, perlinSeed + maxPoint(noiseMap) - new Vector2((mapWidth/2),(mapWidth/2)), octaves, persistence, lacunarity, ridgeSmoothing);
 
-        return noiseMap;
+                return noiseMap;
     }
 
     //returns the highest point on the map
