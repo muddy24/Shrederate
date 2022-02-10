@@ -27,18 +27,15 @@ public class LogoRotate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // future idea: make the logo bounce when the player jumps
         logoObject.transform.Rotate(xAngle, yAngle, zAngle, Space.Self);  
-        // Debug.Log(logoObject.transform.localRotation.eulerAngles.y);
+
         float currentAngle = logoObject.transform.localRotation.eulerAngles.y; 
-        // if (currentAngle - Mathf.Floor(currentAngle) == 0) {
-        //     Debug.Log("we done did it");
-        //     Debug.Log(currentAngle);
-        // } 
+
         if (
             Mathf.Approximately(Mathf.Floor(currentAngle * 10.0f), 900.0f)
             || Mathf.Approximately(Mathf.Floor(currentAngle * 10.0f), 2700.0f)
         ) {
-            Debug.Log("HELL YEA");
             if (mainLogoOn) {
                 logo.sprite = logoBack;
                 mainLogoOn = false;
