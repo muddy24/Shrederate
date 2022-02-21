@@ -43,12 +43,16 @@ public class PlayerMovement : MonoBehaviour
     float currentAirRotateV;
     float currentAirRotateH;
 
+    //sound
+    private PlayerSoundHandler sound;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponentInChildren<Rigidbody>();
         col = GetComponentInChildren<SphereCollider>();
         anim = GetComponentInChildren<Animator>();
+        sound = GetComponent<PlayerSoundHandler>();
 
         rb.transform.parent = null;
     }
@@ -100,6 +104,15 @@ public class PlayerMovement : MonoBehaviour
             transform.up = GetMeshColliderNormal(hit);
             turnTargetAngle = Mathf.SmoothDampAngle(turnTargetAngle, (90 * horizontalInput) * (1- verticalInput*turnReductionAtFullForward), ref currentTurnVelocity, turnSmoothTime);
             transform.Rotate(new Vector3(0, Vector3.SignedAngle(transform.forward, rb.velocity, transform.up) + turnTargetAngle, 0));
+            // check to play turn sound or nah
+            if (Mathf.Abs(currentTurnVelocity) > 150 && (horizontalInput != 0)) {
+                sound.PlayTurn();
+                // would be cool to also apply a little boost like you get when you hit a turn in skiing
+                // should be the opposite direction of the way the skier's edge is hitting
+                
+            }
+
+
 
             //animation
             anim.SetFloat("Speed", rb.velocity.magnitude/maxSpeed);
@@ -174,7 +187,10 @@ public class PlayerMovement : MonoBehaviour
         Physics.Raycast(col.transform.position, -1 *  GetMeshColliderNormal(vertHit), out normalHit, col.radius + .2f);
 
         if(normalHit.collider != null)
-        {
+        {   
+            if ((isGrounded == false) || (isGrounded == null)) { // if they are hitting the ground rn
+                sound.PlayLanding();
+            }
             isGrounded = true;
         }
         else isGrounded = false;      
