@@ -5,24 +5,31 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     PlayerMovement pm;
-
-    public float cameraDistance = 5;
+    public ParticleSystem windTrails;
+    public float maxWindTrailEmission = 50;
+    public float windTrailCuttoff = 0.75f; //ratio of max speed when wind trails kick in. b/t 0 and 1
 
     // Start is called before the first frame update
     void Start()
     {
-        pm = transform.parent.gameObject.GetComponent<PlayerMovement>();
+        windTrails.Stop();
+        pm = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 velocityDirection = pm.rb.velocity.normalized;
+        var windTrailEmission = windTrails.emission;
 
-        if(velocityDirection.magnitude > 0.01f)
+        if(pm.rb.velocity.magnitude < pm.maxSpeed * windTrailCuttoff)
         {
-            transform.position = pm.transform.position - (velocityDirection * cameraDistance) + pm.transform.up * cameraDistance/3;
-            transform.forward = (pm.transform.position - transform.position);
+            windTrails.Stop();
+        }
+        else
+        {
+            float lerpPoint = Mathf.InverseLerp(windTrailCuttoff, 1, pm.rb.velocity.magnitude / pm.maxSpeed);
+            windTrailEmission.rateOverTime = Mathf.Lerp(0, maxWindTrailEmission, lerpPoint);
+            windTrails.Play();
         }
     }
 }
