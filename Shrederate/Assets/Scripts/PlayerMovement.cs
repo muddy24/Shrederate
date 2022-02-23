@@ -46,9 +46,16 @@ public class PlayerMovement : MonoBehaviour
     //sound
     private PlayerSoundHandler sound;
 
+    //particles
+    public ParticleSystem leftSnowPuff;
+    public ParticleSystem rightSnowPuff;
+
     // Start is called before the first frame update
     void Start()
     {
+        rightSnowPuff.Stop();
+        leftSnowPuff.Stop();
+
         rb = GetComponentInChildren<Rigidbody>();
         col = GetComponentInChildren<SphereCollider>();
         anim = GetComponentInChildren<Animator>();
@@ -104,12 +111,36 @@ public class PlayerMovement : MonoBehaviour
             transform.up = GetMeshColliderNormal(hit);
             turnTargetAngle = Mathf.SmoothDampAngle(turnTargetAngle, (90 * horizontalInput) * (1- verticalInput*turnReductionAtFullForward), ref currentTurnVelocity, turnSmoothTime);
             transform.Rotate(new Vector3(0, Vector3.SignedAngle(transform.forward, rb.velocity, transform.up) + turnTargetAngle, 0));
+
             // check to play turn sound or nah
             if (Mathf.Abs(currentTurnVelocity) > 150 && (horizontalInput != 0)) {
                 sound.PlayTurn();
+
                 // would be cool to also apply a little boost like you get when you hit a turn in skiing
                 // should be the opposite direction of the way the skier's edge is hitting
                 
+            }
+
+            //snow particles
+            var leftMain = leftSnowPuff.main;
+            var rightMain = rightSnowPuff.main;
+            if (Mathf.Abs(currentTurnVelocity) > 5 && (horizontalInput != 0) && isGrounded)
+            {
+                if (currentTurnVelocity < 0)
+                {
+                    rightMain.startSize = (Mathf.Abs(currentTurnVelocity) / 200);
+                    rightSnowPuff.Play();
+                }
+                else
+                {
+                    leftMain.startSize = (Mathf.Abs(currentTurnVelocity) / 200);
+                    leftSnowPuff.Play();
+                }
+            }
+            else
+            {
+                rightSnowPuff.Stop();
+                leftSnowPuff.Stop();
             }
 
 
