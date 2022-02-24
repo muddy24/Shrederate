@@ -27,11 +27,11 @@ public class Mountain : MonoBehaviour
             for(int z = 0; z < mapSize; z += treeSpacing)
             {
                 RaycastHit hit;
-                Physics.Raycast(new Vector3(x,99999,z), Vector3.down, out hit, Mathf.Infinity);
+                Physics.Raycast(new Vector3(x,99999,z), Vector3.down, out hit, Mathf.Infinity, ~3);
 
                 if(hit.collider != null)
                 {
-                    trees.Add(Instantiate(tree, hit.point, Quaternion.identity));
+                        trees.Add(Instantiate(tree, hit.point, Quaternion.identity));
                 }
 
             }

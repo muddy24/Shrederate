@@ -204,7 +204,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //cast down to find approximate ground normal under self
         RaycastHit vertHit;
-        Physics.Raycast(col.transform.position, Vector3.down, out vertHit, Mathf.Infinity);
+        Physics.Raycast(col.transform.position, Vector3.down, out vertHit, Mathf.Infinity, ~3);
 
         //this means there's nothing under the player
         if(vertHit.collider == null)
@@ -215,7 +215,7 @@ public class PlayerMovement : MonoBehaviour
 
         //cast in normal direction to detect ground 
         RaycastHit normalHit;
-        Physics.Raycast(col.transform.position, -1 *  GetMeshColliderNormal(vertHit), out normalHit, col.radius + .2f);
+        Physics.Raycast(col.transform.position, -1 *  GetMeshColliderNormal(vertHit), out normalHit, col.radius + .2f, ~3);
 
         if(normalHit.collider != null)
         {   
