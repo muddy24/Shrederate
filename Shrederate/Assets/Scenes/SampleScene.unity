@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 2aeac6555ad92d64fbb7387a5a122b2c, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.5705734, g: 0.58406466, b: 0.7570865, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -601,7 +601,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 571701170}
-  m_LocalRotation: {x: 0.076659106, y: -0.000000017155747, z: 0.0000000013190258, w: 0.9970574}
+  m_LocalRotation: {x: 0.076659106, y: 0.00000001715575, z: -0.000000001319026, w: 0.9970574}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1720,7 +1720,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1601657910}
-  m_LocalRotation: {x: 0.027518429, y: -0.28402933, z: 0.00815542, w: 0.95838594}
+  m_LocalRotation: {x: 0.028272925, y: -0.17209402, z: 0.004941391, w: 0.98466235}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1920,7 +1920,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718776772}
-  m_LocalRotation: {x: 0.24986534, y: -0.000000028625095, z: 0.0000000073867215, w: 0.9682806}
+  m_LocalRotation: {x: 0.24986531, y: -0.0000000038692027, z: 9.984491e-10, w: 0.9682806}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2073,7 +2073,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1862670428}
-  m_LocalRotation: {x: 0.038275253, y: -0.23403646, z: 0.005261346, w: 0.97145987}
+  m_LocalRotation: {x: 0.03785723, y: -0.1413965, z: 0.002985455, w: 0.98922443}
   m_LocalPosition: {x: 2400, y: 1002.2167, z: 2397.441}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
