@@ -118,6 +118,7 @@ public class TerrainMesh : MonoBehaviour
             Rigidbody playerRB = player.GetComponent<PlayerMovement>().rb;
             playerRB.transform.position = new Vector3(halfMapSize, noiseAmplitude * 1f, halfMapSize);
             playerRB.velocity = Vector3.zero;
+            GameEvents.current.LapStart();
         }
     }
 

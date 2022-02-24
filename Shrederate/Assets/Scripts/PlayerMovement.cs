@@ -62,6 +62,8 @@ public class PlayerMovement : MonoBehaviour
         sound = GetComponent<PlayerSoundHandler>();
 
         rb.transform.parent = null;
+        // say what up to the game events
+        GameEvents.current.LapStart();
     }
 
     private void FixedUpdate()
