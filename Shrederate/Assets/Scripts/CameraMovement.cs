@@ -20,7 +20,7 @@ public class CameraMovement : MonoBehaviour
     void Update()
     {
         var windTrailEmission = windTrails.emission;
-
+        windTrails.transform.up = -1* pm.rb.velocity.normalized;
         if(pm.rb.velocity.magnitude < pm.maxSpeed * windTrailCuttoff)
         {
             windTrails.Stop();
