@@ -18,4 +18,9 @@ public class LapCounter : MonoBehaviour
     {
         currentText.text = "Lap Number " + lap;
     }
+
+    private void OnDestroy()
+    {
+        GameEvents.current.onLapStart -= OnLapStart;
+    }
 }

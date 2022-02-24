@@ -221,12 +221,20 @@ public class PlayerMovement : MonoBehaviour
 
         if(normalHit.collider != null)
         {   
-            if ((isGrounded == false) || (isGrounded == null)) { // if they are hitting the ground rn
+            if (isGrounded == false) { // if they are hitting the ground rn
                 sound.PlayLanding();
+                GameEvents.current.Land();
             }
             isGrounded = true;
         }
-        else isGrounded = false;      
+        else 
+        {
+            if (isGrounded == true) { // just now getting airtime
+                sound.PlayLanding();
+                GameEvents.current.AirtimeStart();
+            }
+            isGrounded = false;  
+        }    
     }
 
     private Vector3 GetMeshColliderNormal(RaycastHit hit)

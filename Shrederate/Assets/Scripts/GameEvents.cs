@@ -7,6 +7,7 @@ public class GameEvents : MonoBehaviour
 {
    public static GameEvents current;
    public static int lapCount;
+   public static float jumpStartTime;
 
    private void Awake()
    {
@@ -24,4 +25,22 @@ public class GameEvents : MonoBehaviour
        }
    }
 
+   public event Action onAirtimeStart;
+   public void AirtimeStart()
+   {
+       jumpStartTime = Time.time;
+       if (onAirtimeStart != null) {
+           onAirtimeStart();
+       }
+   }
+
+   public event Action<float> onLand;
+   public void Land()
+   {
+       float totalJumpTime = Time.time - jumpStartTime;
+       
+       if (onLand != null) {
+           onLand(totalJumpTime);
+       }
+   }
 }
