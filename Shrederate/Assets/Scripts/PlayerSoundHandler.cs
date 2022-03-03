@@ -21,11 +21,13 @@ public class PlayerSoundHandler : MonoBehaviour
 
     }
 
-    public void PlayLanding() {
+    public void PlayLanding() 
+    {
         landingSound.Play();
     }
 
-    public void PlayTurn() {
+    public void PlayTurn() 
+    {
         turnSound.Play();
     }
 }

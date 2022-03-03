@@ -15,6 +15,8 @@ public class TrickTracker : MonoBehaviour
     List<GameObject> trickPrefabs;
     List<TrickData> trickHistory;
 
+    private TrickVoiceHandler voice;
+
     public class TrickData
     {
         public float startTime;
@@ -24,6 +26,7 @@ public class TrickTracker : MonoBehaviour
         public float endTime;
         public Transform endTransform;
         public int prefabID;
+        public bool soundPlayed;
 
         public TrickData(Transform initTransform, int fabID)
         {
@@ -31,6 +34,7 @@ public class TrickTracker : MonoBehaviour
             startTransform = initTransform;
             prefabID = fabID;
             isComplete = false;
+            soundPlayed = false;
         }
 
         public void EndTrick(bool isUpright)
@@ -50,6 +54,8 @@ public class TrickTracker : MonoBehaviour
 
         trickPrefabs = new List<GameObject>();
         trickHistory = new List<TrickData>();
+
+        voice = GetComponent<TrickVoiceHandler>();
 
     }
 
@@ -104,25 +110,47 @@ public class TrickTracker : MonoBehaviour
             // update values for exisitng tricks
             if (!trick.isComplete) 
             {
-                Text trickText = fab.transform.GetChild(0).gameObject.GetComponent<Text>();;
-                Text trickValueText = fab.transform.GetChild(1).gameObject.GetComponent<Text>();;
+                // updates the ui text for the trick
+                Text trickText = fab.transform.GetChild(0).gameObject.GetComponent<Text>();
+                Text trickValueText = fab.transform.GetChild(1).gameObject.GetComponent<Text>();
                 float currentAirtime = Time.time - trick.startTime;
                 trickValueText.text = currentAirtime.ToString("F1") + "s";
-                if (currentAirtime > 2.0f) 
+                if (currentAirtime > 2.0f && currentAirtime < 5.00f) 
                 {
                     trickText.text = "Nice Air";
-                    // play sound too
-                } else if (currentAirtime > 5.0f) 
+                    // play sound too?
+                } 
+                else if (currentAirtime > 5.0f && currentAirtime < 10.0f) 
                 {
                     trickText.text = "Mega Air";
-                }
+                } 
+                else if (currentAirtime > 10.0f && currentAirtime < 20.0f) 
+                {
+                    trickText.text = "Giga Air";
+                } 
+                else if (currentAirtime > 20.0f) 
+                {
+                    trickText.text = "Ultra Air";
+                } 
             }
-
             // remove 'old tricks'
             if (trick.isComplete && (Time.time > (trick.endTime + trickUILinger)))
             {
                 // trick has been dispalyed for long enough, plz remove
                 Destroy(fab);
+
+                // was trick good?
+                if (trick.endTime - trick.startTime > 2.0f && trick.stuckLanding) 
+                {
+                    // play random motivational sound line (if we haven't already)
+                    if (!trick.soundPlayed) 
+                    {
+                        voice.PlayRandomVoiceLine();
+                        trick.soundPlayed = true;
+                    }
+                    
+                }
+                
             }
         }
     }
