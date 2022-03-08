@@ -10,12 +10,23 @@ public class TrickTracker : MonoBehaviour
     public GameObject uiCanvas;
 
     public float uprightLandingThreshold = 0.6f;
-    public float trickUILinger = 0.75f; // how long a trcik stay son the ui before dissapearing
+    public float trickUILinger = 5.00f; // how long a trcik stay son the ui before dissapearing
 
     List<GameObject> trickPrefabs;
     List<TrickData> trickHistory;
 
     private TrickVoiceHandler voice;
+
+    public float trickStartX;
+    public float trickStartY;
+    public float trickStartZ;
+    public float trickNudgeX;
+    public float trickNudgeY;
+    public float trickNudgeZ;
+
+    public Color trickFailColor;
+    public Color trickOldColor;
+
 
     public class TrickData
     {
@@ -61,13 +72,10 @@ public class TrickTracker : MonoBehaviour
 
     private void OnAirtime() {
         
-        GameObject newTrick = Instantiate(trickPrefab, new Vector3(160,0,0), Quaternion.identity);
+        GameObject newTrick = Instantiate(trickPrefab, new Vector3(trickStartX,trickStartY,trickStartZ), Quaternion.identity);
         newTrick.transform.SetParent(uiCanvas.transform, false);
 
-        trickPrefabs.Add(newTrick);
-        trickHistory.Add(new TrickData(player.transform, newTrick.GetInstanceID()));
-
-        // shoudl call update function that bumps all old ones up a little bit
+        CreateNewTrick(newTrick, new TrickData(player.transform, newTrick.GetInstanceID()));
     }
 
     private void OnLanding(float totalJumpTime) {
@@ -88,9 +96,36 @@ public class TrickTracker : MonoBehaviour
             GameObject finishedTrick = trickPrefabs[trickHistory.Count - 1];
             Text trickText = finishedTrick.transform.GetChild(0).gameObject.GetComponent<Text>();;
             trickText.text = "ayo you biffed";
+            trickText.color = trickFailColor;
             Text trickValue = finishedTrick.transform.GetChild(1).gameObject.GetComponent<Text>();;
             trickValue.text = "";
+            trickValue.color = trickFailColor;
         }
+    }
+
+    private void CreateNewTrick(GameObject trickObject, TrickData trickData) 
+    {
+        int count = 0;
+        // first bump all old tricks up in the UI
+        // docs for LeanTween here FYI http://dentedpixel.com/LeanTweenDocumentation/classes/LeanTween.html
+        foreach(GameObject fab in trickPrefabs) 
+        {
+            count++;
+            if (fab != null) {
+                Text trickText = fab.transform.GetChild(0).gameObject.GetComponent<Text>();;
+                trickText.color = trickOldColor;
+                LeanTween.scale(trickText.gameObject, new Vector3(0.75f, 0.75f, 1.0f), 0.12f);
+                Text trickValue = fab.transform.GetChild(1).gameObject.GetComponent<Text>();;
+                trickValue.color = trickOldColor;
+                LeanTween.scale(trickValue.gameObject, new Vector3(0.75f, 0.75f, 1.0f), 0.12f);
+                float yAmount = trickNudgeY * (trickPrefabs.Count - count + 1) + trickStartY;
+                LeanTween.moveLocal(fab, new Vector3(trickNudgeX, yAmount, trickNudgeZ), 0.25f);
+            }
+            
+        }
+
+        trickPrefabs.Add(trickObject);
+        trickHistory.Add(trickData);
     }
 
     // Update is called once per frame
@@ -136,8 +171,10 @@ public class TrickTracker : MonoBehaviour
             // remove 'old tricks'
             if (trick.isComplete && (Time.time > (trick.endTime + trickUILinger)))
             {
-                // trick has been dispalyed for long enough, plz remove
-                Destroy(fab);
+                // trick has been dispalyed for long enough, plz remove (and start with the kids)
+                //Destroy(fab.transform.GetChild(0).gameObject);
+                //Destroy(fab.transform.GetChild(1).gameObject);
+                DestroyImmediate(fab);
 
                 // was trick good?
                 if (trick.endTime - trick.startTime > 2.0f && trick.stuckLanding) 

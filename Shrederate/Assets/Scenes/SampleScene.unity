@@ -604,7 +604,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 571701170}
-  m_LocalRotation: {x: 0.076659106, y: -0.00000001715575, z: 0.000000001319026, w: 0.9970574}
+  m_LocalRotation: {x: 0.076659106, y: 0.000000017155747, z: -0.0000000013190258, w: 0.9970574}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2246,7 +2246,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718776772}
-  m_LocalRotation: {x: 0.24986534, y: -0.000000028625093, z: 0.000000007386721, w: 0.9682806}
+  m_LocalRotation: {x: 0.2498653, y: 0.000000024967825, z: -0.00000000644296, w: 0.9682806}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2399,7 +2399,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1862670428}
-  m_LocalRotation: {x: 0.03780052, y: -0.12560864, z: 0.0026310675, w: 0.99135596}
+  m_LocalRotation: {x: 0.03780052, y: -0.12560864, z: 0.0026310654, w: 0.99135596}
   m_LocalPosition: {x: 2401, y: 1002.2167, z: 2398.441}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2543,7 +2543,15 @@ MonoBehaviour:
   trickPrefab: {fileID: 1398473864476741676, guid: 05a06bfa74eee14468b482f7a80f0aec, type: 3}
   uiCanvas: {fileID: 5292251}
   uprightLandingThreshold: 0.6
-  trickUILinger: 0.75
+  trickUILinger: 5
+  trickStartX: 160
+  trickStartY: 100
+  trickStartZ: 0
+  trickNudgeX: -290
+  trickNudgeY: 50
+  trickNudgeZ: 0
+  trickFailColor: {r: 0.7075472, g: 0.043387346, b: 0.043387346, a: 0.7176471}
+  trickOldColor: {r: 0.4056604, g: 0.4056604, b: 0.4056604, a: 0.5372549}
 --- !u!114 &1939082649
 MonoBehaviour:
   m_ObjectHideFlags: 0
