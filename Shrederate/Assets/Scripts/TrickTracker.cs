@@ -32,6 +32,7 @@ public class TrickTracker : MonoBehaviour
     {
         public float startTime;
         public Transform startTransform;
+        public float startXRotation;
         public bool isComplete;
         public bool stuckLanding;
         public float endTime;
@@ -43,6 +44,7 @@ public class TrickTracker : MonoBehaviour
         {
             startTime = Time.time;
             startTransform = initTransform;
+            startXRotation = initTransform.eulerAngles.x;
             prefabID = fabID;
             isComplete = false;
             soundPlayed = false;
@@ -79,7 +81,6 @@ public class TrickTracker : MonoBehaviour
     }
 
     private void OnLanding(float totalJumpTime) {
-        // Debug.Log("frog clogs");
         if (trickHistory.Count <= 0) {
             return;
         } 
@@ -148,25 +149,31 @@ public class TrickTracker : MonoBehaviour
                 // updates the ui text for the trick
                 Text trickText = fab.transform.GetChild(0).gameObject.GetComponent<Text>();
                 Text trickValueText = fab.transform.GetChild(1).gameObject.GetComponent<Text>();
-                float currentAirtime = Time.time - trick.startTime;
-                trickValueText.text = currentAirtime.ToString("F1") + "s";
-                if (currentAirtime > 2.0f && currentAirtime < 5.00f) 
-                {
-                    trickText.text = "Nice Air";
-                    // play sound too?
-                } 
-                else if (currentAirtime > 5.0f && currentAirtime < 10.0f) 
-                {
-                    trickText.text = "Mega Air";
-                } 
-                else if (currentAirtime > 10.0f && currentAirtime < 20.0f) 
-                {
-                    trickText.text = "Giga Air";
-                } 
-                else if (currentAirtime > 20.0f) 
-                {
-                    trickText.text = "Ultra Air";
-                } 
+                
+
+                //lets check rotation first
+                float currentXRotation = player.transform.eulerAngles.x; //- trick.startTransform.localRotation.x;
+                trickValueText.text = "xRot: " + (trick.startXRotation - currentXRotation); 
+                // airtime based trick stuff
+                // float currentAirtime = Time.time - trick.startTime;
+                // trickValueText.text = currentAirtime.ToString("F1") + "s";
+                // if (currentAirtime > 2.0f && currentAirtime < 5.00f) 
+                // {
+                //     trickText.text = "Nice Air";
+                //     // play sound too?
+                // } 
+                // else if (currentAirtime > 5.0f && currentAirtime < 10.0f) 
+                // {
+                //     trickText.text = "Mega Air";
+                // } 
+                // else if (currentAirtime > 10.0f && currentAirtime < 20.0f) 
+                // {
+                //     trickText.text = "Giga Air";
+                // } 
+                // else if (currentAirtime > 20.0f) 
+                // {
+                //     trickText.text = "Ultra Air";
+                // } 
             }
             // remove 'old tricks'
             if (trick.isComplete && (Time.time > (trick.endTime + trickUILinger)))
