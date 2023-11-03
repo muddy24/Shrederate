@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 776915681978321915}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 6547425875463534138}
   - {fileID: 1758519249171921928}
@@ -50,6 +50,7 @@ MonoBehaviour:
   - {fileID: 1381570841156019890}
   LOD: 1
   distancePerLOD: 100
+  availableToSpawn: 1
   player: {fileID: 0}
 --- !u!1001 &37130980776121586
 PrefabInstance:

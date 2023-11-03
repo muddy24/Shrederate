@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     public float forwardStrength = 3;
     public float jumpForce = 10;
     public float turnReductionAtFullForward = 0.5f; //how much harder it is to turn when pushing fwd. 1 means you can't turn, 0 mean there's no impact
+    public bool moveEnabled = true;
 
     //head look
     public float headLookH = 0;
@@ -68,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isGrounded)
+        if (!isGrounded || !moveEnabled)
             return;
 
         if(verticalInput > 0)
@@ -86,6 +87,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!moveEnabled)
+            return;
+
         //get input
         verticalInput = Input.GetAxisRaw("Vertical");
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -183,8 +187,8 @@ public class PlayerMovement : MonoBehaviour
             //follow rigidbody
             transform.position = rb.transform.position + Vector3.down * col.radius;
 
-            airRotateAngleH = Mathf.SmoothDamp(airRotateAngleH, horizontalInput * airControl * flipSpeedMult, ref currentAirRotateH, airRotateTime);
-            airRotateAngleV = Mathf.SmoothDamp(airRotateAngleV, verticalInput * airControl * flipSpeedMult, ref currentAirRotateV, airRotateTime);
+            airRotateAngleH = Mathf.SmoothDamp(airRotateAngleH, horizontalInput * airControl * flipSpeedMult * Time.deltaTime * 200, ref currentAirRotateH, airRotateTime);
+            airRotateAngleV = Mathf.SmoothDamp(airRotateAngleV, verticalInput * airControl * flipSpeedMult * Time.deltaTime * 200, ref currentAirRotateV, airRotateTime);
 
             transform.RotateAround(airPivot.transform.position, transform.right, airRotateAngleV);
             transform.RotateAround(airPivot.transform.position, transform.up, airRotateAngleH);

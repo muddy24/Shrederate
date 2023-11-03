@@ -184,6 +184,7 @@ MonoBehaviour:
   LODs: []
   LOD: 1
   distancePerLOD: 100
+  availableToSpawn: 1
   player: {fileID: 0}
 --- !u!65 &2990230179118760280
 BoxCollider:

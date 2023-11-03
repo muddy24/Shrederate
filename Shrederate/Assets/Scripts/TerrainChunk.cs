@@ -6,6 +6,7 @@ public class TerrainChunk : MonoBehaviour
 {
     Mesh mesh;
     MeshCollider col;
+    public BoxCollider boxBounds;
 
     //just here so the terrainMesh can easily check
     public int LOD = 1;
@@ -15,11 +16,23 @@ public class TerrainChunk : MonoBehaviour
     Vector3[] vertices;
     int[] triangles;
 
+    public List<Vector3> treePositions = new List<Vector3>();
+
     //fills vertices[] with position data to create a flat plane
-    public void CreateChunk(Vector3[] verts, int lod)
+    public void CreateChunk(Vector3[] verts, int lod, Vector2 boxBoundStart, Vector2 boxBoundEnd)
     {
+        treePositions = new List<Vector3>();
         LOD = lod;
         vertices = verts;
+
+        gameObject.AddComponent<BoxCollider>();
+        boxBounds = gameObject.GetComponent<BoxCollider>();
+        Vector2 boxBoundCenter = (boxBoundStart + boxBoundEnd) / 2;
+        float boxBoundSize = boxBoundEnd.x - boxBoundStart.x;
+        boxBounds.center = new Vector3(boxBoundCenter.x, 0, boxBoundCenter.y);
+        boxBounds.size = new Vector3(boxBoundSize, 10000, boxBoundSize);
+        boxBounds.enabled = false;
+
 
         col = gameObject.GetComponent<MeshCollider>();
         mesh = new Mesh();
@@ -77,4 +90,8 @@ public class TerrainChunk : MonoBehaviour
         mesh.RecalculateNormals();
     }
 
+    public Collider GetCollider()
+    {
+        return col;
+    }
 }

@@ -15,9 +15,9 @@ public class PlayerSoundHandler : MonoBehaviour
     {
         playerSounds = GetComponents<AudioSource>();
 
-        startSound = playerSounds[3];
+        startSound = playerSounds[2];
         landingSound = playerSounds[0];
-        turnSound = playerSounds[2];
+        turnSound = playerSounds[1];
 
     }
 

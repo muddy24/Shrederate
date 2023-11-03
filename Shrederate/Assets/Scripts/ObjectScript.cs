@@ -7,6 +7,7 @@ public class ObjectScript : MonoBehaviour
     public List<GameObject> LODs;
     public int LOD = 1;
     public float distancePerLOD = 100;
+    public bool availableToSpawn = true;
 
     public GameObject player;
 
@@ -20,11 +21,11 @@ public class ObjectScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int newLOD = (int)Mathf.Ceil(Vector3.Distance(transform.position, player.transform.position) / distancePerLOD);
+        //int newLOD = (int)Mathf.Ceil(Vector3.Distance(transform.position, player.transform.position) / distancePerLOD);
         //if(newLOD > LODs.Count) newLOD = LODs.Count;
 
-        if (LOD != newLOD)
-            SetLOD(newLOD);
+        //if (LOD != newLOD)
+        //    SetLOD(newLOD);
     }
 
     public void SetLOD(int lod)
@@ -37,6 +38,18 @@ public class ObjectScript : MonoBehaviour
                 LODs[i-1].SetActive(true);
             else LODs[i-1].SetActive(false);            
         }
+    }
+
+    public void ReturnToObjectPool()
+    {
+        transform.position = Vector3.zero;
+        availableToSpawn = true;
+    }
+
+    public void SpawnAt(Vector3 pos)
+    {
+        transform.position = pos;
+        availableToSpawn = false;
     }
 
 }

@@ -171,12 +171,17 @@ public class TerrainMesh : MonoBehaviour
             return;
 
         //clear old chunk
+        List<Vector3> treePosTemp = new List<Vector3>();
+        if(chunks[x, y] != null)
+            treePosTemp = chunks[x, y].GetComponent<TerrainChunk>().treePositions;
         Destroy(chunks[x, y]);
+
 
         //add new chunk to chunks matrix
         chunks[x, y] = Instantiate(chunkPrefab, Vector3.zero, Quaternion.identity);
-        chunks[x, y].GetComponent<TerrainChunk>().CreateChunk(chunkVerts.ToArray(), lod);
+        chunks[x, y].GetComponent<TerrainChunk>().CreateChunk(chunkVerts.ToArray(), lod, new Vector2(x*chunkSize,y*chunkSize)*2, new Vector2((x+1)* chunkSize, ((y+1)*chunkSize))*2);
         chunks[x, y].transform.parent = gameObject.transform;
+        chunks[x, y].GetComponent<TerrainChunk>().treePositions = treePosTemp;
     }
 
     //uses Noise to generate heights for each vertex. This is the master matrix with highest LOD
@@ -324,6 +329,12 @@ public class TerrainMesh : MonoBehaviour
         vertices[i] = newPos;
     }
 
+    public float GetHeightAtXY(Vector2 pos)
+    {
+        int terrainSideLength = (int)Mathf.Pow(vertices.Length, 0.5f);
+        return vertices[(int)(pos.x + pos.y * terrainSideLength)].y;
+    }
+
     //Update triangle and vertex data in mesh
     public void UpdateMesh()
     {
@@ -333,5 +344,10 @@ public class TerrainMesh : MonoBehaviour
         mesh.triangles = triangles;
 
         mesh.RecalculateNormals();
+    }
+
+    public GameObject[,] GetChunks()
+    {
+        return chunks;
     }
 }
