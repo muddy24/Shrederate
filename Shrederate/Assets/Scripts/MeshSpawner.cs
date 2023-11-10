@@ -32,7 +32,7 @@ public class MeshSpawner : MonoBehaviour
         int j = 0;
         Matrix4x4[] thisBatch;
         //loop through all positions
-        while (i * batchSize + j < positions.Count)
+        while (i * batchSize < positions.Count)
         {
             j = 0;
             thisBatch = new Matrix4x4[batchSize];
@@ -45,13 +45,13 @@ public class MeshSpawner : MonoBehaviour
                     m.SetTRS(positions[i * batchSize + j], Quaternion.Euler(eulerAngles), Vector3.one);
                     thisBatch[j] = m;
                 }
-                else
-                    break;
+
                 j++;
             }
             positionBatches.Add(thisBatch);
             i++;
         }
+        Debug.Log(positionBatches.Count);
     }
 
     // Update is called once per frame
@@ -61,39 +61,16 @@ public class MeshSpawner : MonoBehaviour
         {
             return;
         }
-        /*
-        int i = 0;
-        int j = 0;
 
-        //loop through all positions
-        while (i * batchSize + j < positions.Count)
-        {
-            j = 0;
-            Matrix4x4[] instData = new Matrix4x4[batchSize];
-
-            //send position and rotation data to a batch
-            while (j < batchSize)
-            {
-                if (i * batchSize + j < positions.Count - 1)
-                {
-                    Matrix4x4 m = Matrix4x4.identity;
-                    m.SetTRS(positions[i * batchSize + j], Quaternion.Euler(eulerAngles), Vector3.one);
-                    instData[j] = m;
-                }
-                else
-                    break;
-
-                j++;
-            }
-
-            //render current batch
-            Graphics.DrawMeshInstanced(mesh, 0, material, instData);//rp, mesh, 0, instData, -1, 0);
-            i++;
-        }*/
+        int renderCount = 0;
         foreach(Matrix4x4[] batch in positionBatches)
         {
+            foreach(Matrix4x4 m in batch)
+            {
+                if(m != null)
+                    renderCount++;
+            }
             Graphics.DrawMeshInstanced(mesh, 0, material, batch);
         }
-
     }
 }

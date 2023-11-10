@@ -8,9 +8,20 @@ public class Mountain : MonoBehaviour
     float mapSize;
 
     public GameObject greenMarker;
+    public GameObject blueMarker;
+    public GameObject blackMarker;
     public GameObject redMarker;
+    public GameObject cannon;
     public GameObject camTarget;
+    public GameObject camPosition;
     public List<GameObject> minima = new List<GameObject>();
+
+    //slop stuff
+    List<List<Vector3>> slopePoints = new List<List<Vector3>>();
+    List<string> slopeGrades = new List<string>();
+    Vector2 greenSlopeRange = new Vector2(.9f, 1.0f);
+    Vector2 blueSlopeRange = new Vector2(.7f, .9f);
+    Vector2 blackSlopeRange = new Vector2(0, .7f);
 
     //tree stuff
     public GameObject tree;
@@ -42,11 +53,19 @@ public class Mountain : MonoBehaviour
         {
             trees[i] = Instantiate(tree, Vector3.zero, Quaternion.identity);
         }
-
+        
         treePositions = new List<Vector3>();
+
+        /*Vector2 peakPoint = new Vector2(terrain.peak.x, terrain.peak.z);
+        CreateSlope(GetPointAtPosition(peakPoint + new Vector2(50, 0)));
+        CreateSlope(GetPointAtPosition(peakPoint + new Vector2(-50, 0)));
+        CreateSlope(GetPointAtPosition(peakPoint + new Vector2(0, 50)));
+        CreateSlope(GetPointAtPosition(peakPoint + new Vector2(0, -50)));
+        */
 
         //generate tree locations
         float samplePoint = Random.Range(0, 10000);
+        
         for (int x = 0; x < mapSize; x += treeSpacing)
         {
             for(int z = 0; z < mapSize; z += treeSpacing)
@@ -54,22 +73,26 @@ public class Mountain : MonoBehaviour
                 if (Mathf.PerlinNoise(samplePoint + (x / mapSize) * treeNoiseScale, (z / mapSize) * treeNoiseScale) < Random.Range(0f,treeNoiseCuttoff))
                 {
                     RaycastHit hit;
-                    Physics.Raycast(new Vector3(x,99999,z), Vector3.down, out hit, Mathf.Infinity, ~3);
+                    Physics.Raycast(new Vector3(x,9999,z), Vector3.down, out hit, Mathf.Infinity);
 
-                    if(hit.collider != null)
+                    if (hit.collider != null)
                     {
                         treePositions.Add(hit.point);
 
                         //assign tree position to chunk
                         foreach(GameObject chunk in terrain.GetChunks())
                         {
-                            chunk.GetComponent<TerrainChunk>().boxBounds.enabled = true;
-                            if (chunk.GetComponent<TerrainChunk>().boxBounds.bounds.Contains(hit.point))
+                            /*Bounds b = chunk.GetComponent<Renderer>().bounds;
+                            if(b.min.x < hit.point.x && b.max.x > hit.point.x && b.min.z < hit.point.z && b.max.z > hit.point.z)
+                            {
+                                chunk.GetComponent<TerrainChunk>().treePositions.Add(hit.point);
+                                break;
+                            }*/
+                            if (chunk.GetComponent<TerrainChunk>().chunkBounds.Contains(hit.point))
                             {
                                 chunk.GetComponent<TerrainChunk>().treePositions.Add(hit.point);
                                 break;
                             }
-                            chunk.GetComponent<TerrainChunk>().boxBounds.enabled = false;
                         }
                     }
                 }
@@ -87,10 +110,113 @@ public class Mountain : MonoBehaviour
         
         foreach(Vector2 v in findLocalMinima(searchStartPoint, initialSearchSize, (int)(terrain.mapWidth*terrain.vectorSpacing/searchStartPoint.x)))
         {
-            minima.Add(Instantiate(greenMarker, new Vector3(v.x * terrain.vectorSpacing, terrain.GetHeightAtXY(v), v.y * terrain.vectorSpacing), Quaternion.identity));
+            minima.Add(Instantiate(cannon, new Vector3(v.x * terrain.vectorSpacing, terrain.GetHeightAtXY(v), v.y * terrain.vectorSpacing), Quaternion.identity));
         }
 
         camTarget.transform.position = new Vector3(.5f, 0.0f, .5f) * terrain.mapWidth * terrain.vectorSpacing;
+    }
+    
+    public List<Vector3> CreateSlope(Vector3 startPos)
+    {
+        List<Vector3> ret = new List<Vector3>();
+        ret.Add(startPos);        
+
+        Vector3 currentPos = startPos;
+        Vector3 nextPos;
+        Vector3 normal = new Vector3();
+        Vector2 moveDirection;
+        float stepSize = 50f;
+
+        string thisSlopeGrade = GetGradeAtPosition(new Vector2(startPos.x,startPos.z));
+
+        while(GetGradeAtPosition(new Vector2(currentPos.x, currentPos.z)) == thisSlopeGrade && ret.Count < 20)
+        {            
+            normal = GetNormalAtPosition(currentPos);
+            moveDirection = new Vector2(normal.x, normal.z).normalized * stepSize;
+            nextPos = GetPointAtPosition(new Vector2(currentPos.x, currentPos.z) + moveDirection);
+
+            //if slope aint right, sweep left and right to look for a spot that's good
+            float rotateSteps = 0;
+            while(GetGradeAtPosition(new Vector2(nextPos.x, nextPos.z)) != thisSlopeGrade && rotateSteps < 8)
+            {
+                rotateSteps++;
+                moveDirection = rotateV2(moveDirection, 4 * rotateSteps * (-1 * rotateSteps%2));
+                //moveDirection = new Vector2(normal.x * stepSize, normal.z * stepSize);
+                nextPos = GetPointAtPosition(new Vector2(currentPos.x, currentPos.z) + moveDirection);
+            }
+            //ret.Add(GetPointAtPosition(new Vector2(currentPos.x + normal.x * 50, currentPos.z + normal.z * 50)));
+            ret.Add(nextPos);
+            currentPos = ret[ret.Count - 1];
+        }
+
+        slopeGrades.Add(thisSlopeGrade);
+
+        GameObject g = new GameObject();
+        switch (thisSlopeGrade)
+        {
+            case "green":
+                g = greenMarker;
+                break;
+            case "blue":
+                g = blueMarker;
+                break;
+            default:
+                g = blackMarker;
+                break;
+        }
+        foreach (Vector3 point in ret)
+        {
+            Instantiate(g, point, Quaternion.identity);
+        }
+
+        return ret;
+    }
+
+    //rotates vector2 by delta degrees
+    public static Vector2 rotateV2(Vector2 v, float delta)
+    {
+        float deltaRad = delta * 3.14f / 180;
+        return new Vector2(
+            v.x * Mathf.Cos(deltaRad) - v.y * Mathf.Sin(deltaRad),
+            v.x * Mathf.Sin(deltaRad) + v.y * Mathf.Cos(deltaRad)
+        );
+    }
+
+    //returns result of raycast down at point x,9999,y
+    private Vector3 GetPointAtPosition(Vector2 pos)
+    {
+        RaycastHit hit;
+        Physics.Raycast(new Vector3(pos.x, 9999, pos.y), Vector3.down, out hit, Mathf.Infinity);
+
+        if (hit.collider != null)
+        {
+            return hit.point;
+        }
+        return Vector3.zero;
+    }
+
+    // green, blue, or black
+    private string GetGradeAtPosition(Vector2 pos)
+    {
+        if (GetNormalAtPosition(new Vector3(pos.x, 0, pos.y)).y >= greenSlopeRange.x)
+            return "green";
+        if (GetNormalAtPosition(new Vector3(pos.x, 0, pos.y)).y >= blueSlopeRange.x)
+            return "blue";
+        else
+            return "black";
+    }
+
+    //returns normal of raycast down at x,9999,z
+    private Vector3 GetNormalAtPosition(Vector3 pos)
+    {
+        RaycastHit hit;
+        Physics.Raycast(new Vector3(pos.x, 9999, pos.z), Vector3.down, out hit, Mathf.Infinity);
+
+        if(hit.collider != null)
+        {
+            return hit.normal;
+        }
+        return Vector3.zero;
     }
 
     private List<Vector2> findLocalMinima(Vector2 startPoint, int stepSize, int gridSize)
@@ -159,24 +285,6 @@ public class Mountain : MonoBehaviour
                 }
             }
         }
-
-        //old way where it checks through every treepos each frame
-        /*foreach (Vector3 pos in treePositions)
-        {
-            if (Vector3.Distance(player.transform.position, pos) < treeDrawDistance)
-            {
-                //check if there's already a tree there
-                bool alreadySpawned = false;
-
-                foreach (GameObject tree in trees)
-                {
-                    if (tree.transform.position == pos)
-                        alreadySpawned = true;
-                }
-                if (!alreadySpawned)
-                    GetFreeTree().GetComponent<ObjectScript>().SpawnAt(pos);
-            }
-        }*/
 
         //set tree LODs
         foreach (GameObject o in trees)

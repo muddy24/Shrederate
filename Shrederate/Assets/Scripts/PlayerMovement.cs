@@ -221,7 +221,8 @@ public class PlayerMovement : MonoBehaviour
 
         //cast in normal direction to detect ground 
         RaycastHit normalHit;
-        Physics.Raycast(col.transform.position, -1 *  GetMeshColliderNormal(vertHit), out normalHit, col.radius + .2f, ~3);
+        int mask = 1 << 2;
+        Physics.Raycast(col.transform.position, -1 *  GetMeshColliderNormal(vertHit), out normalHit, col.radius + .2f, ~mask);
 
         if(normalHit.collider != null)
         {   

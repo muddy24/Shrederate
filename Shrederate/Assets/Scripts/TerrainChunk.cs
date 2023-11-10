@@ -6,7 +6,9 @@ public class TerrainChunk : MonoBehaviour
 {
     Mesh mesh;
     MeshCollider col;
-    public BoxCollider boxBounds;
+    public Bounds chunkBounds;
+    //public BoxCollider boxBounds;
+    //public GameObject boundsObject;
 
     //just here so the terrainMesh can easily check
     public int LOD = 1;
@@ -25,14 +27,16 @@ public class TerrainChunk : MonoBehaviour
         LOD = lod;
         vertices = verts;
 
-        gameObject.AddComponent<BoxCollider>();
-        boxBounds = gameObject.GetComponent<BoxCollider>();
+        /*boundsObject.AddComponent<BoxCollider>();
+        boxBounds = boundsObject.GetComponent<BoxCollider>();
         Vector2 boxBoundCenter = (boxBoundStart + boxBoundEnd) / 2;
         float boxBoundSize = boxBoundEnd.x - boxBoundStart.x;
         boxBounds.center = new Vector3(boxBoundCenter.x, 0, boxBoundCenter.y);
-        boxBounds.size = new Vector3(boxBoundSize, 10000, boxBoundSize);
-        boxBounds.enabled = false;
+        boxBounds.size = new Vector3(boxBoundSize,  10000, boxBoundSize);
+        */
 
+        chunkBounds = new Bounds();
+        chunkBounds.SetMinMax(new Vector3(boxBoundStart.x, -5000, boxBoundStart.y), new Vector3(boxBoundEnd.x, 5000, boxBoundEnd.y));
 
         col = gameObject.GetComponent<MeshCollider>();
         mesh = new Mesh();

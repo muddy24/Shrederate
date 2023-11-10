@@ -352,6 +352,8 @@ MonoBehaviour:
   ridgeSmoothing: 0.3
   reshapeEdgeRadiusPercent: 1
   bowlHeightPercent: 0.5
+  noiseSeed: {x: 0, y: 0}
+  peak: {x: 0, y: 0, z: 0}
   numChunks: 10
   chunkPrefab: {fileID: 3969048430564252616, guid: 5f8be0ef8f165cd48b84eb6f859b7904, type: 3}
 --- !u!4 &189199852
@@ -367,6 +369,7 @@ Transform:
   m_Children:
   - {fileID: 1950186990}
   - {fileID: 1349267500}
+  - {fileID: 977701045}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -446,8 +449,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   greenMarker: {fileID: 5038600209293122419, guid: 106c30aa481388641b87ca37caabc780, type: 3}
+  blueMarker: {fileID: 5074615983224976139, guid: e0a09ad465c854240b70f3daf5bdda87, type: 3}
+  blackMarker: {fileID: 4554773360298308368, guid: 911eca7da62f28541a32e0864f1756bc, type: 3}
   redMarker: {fileID: 2289327994455598371, guid: 1929707811587c742883b76258e6e4b0, type: 3}
+  cannon: {fileID: 128082308822679660, guid: c3aec9258af32f34188c5177dfe4c434, type: 3}
   camTarget: {fileID: 1349267499}
+  camPosition: {fileID: 977701044}
   minima: []
   tree: {fileID: 776915681978321915, guid: 395dab897d2a43a4f8cdf712a46b1a32, type: 3}
   treeSpacing: 20
@@ -633,7 +640,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 571701170}
-  m_LocalRotation: {x: 0.076659106, y: -0.000000019854678, z: 0.0000000015265339, w: 0.9970574}
+  m_LocalRotation: {x: 0.076659106, y: 0.000000017155747, z: -0.0000000013190258, w: 0.9970574}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -963,6 +970,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 886553521}
   m_CullTransparentMesh: 1
+--- !u!1 &977701044
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 977701045}
+  m_Layer: 0
+  m_Name: CamPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &977701045
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977701044}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2400, y: 1800, z: -850}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 189199852}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &996125640
 GameObject:
   m_ObjectHideFlags: 3
@@ -2331,8 +2368,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718776772}
-  m_LocalRotation: {x: 0.24219668, y: 0.0000000034082754, z: -8.5080376e-10, w: 0.9702272}
-  m_LocalPosition: {x: 0, y: -0.12774658, z: 0.08569336}
+  m_LocalRotation: {x: 0.2498653, y: -0.000000024902365, z: 0.000000006426068, w: 0.9682806}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1707755802}
@@ -3466,7 +3503,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mountainHomePos: {x: 2400, y: 1800, z: -850}
+  initialTargetPosition: {x: 0, y: 0, z: 0}
   target: {fileID: 1349267499}
+  rotationEnabled: 1
+  reachedTargetPos: 0
+  camMoveSpeed: 5
+  camRotateSpeed: 5
   reticle: {fileID: 847230592}
 --- !u!114 &2070407383
 MonoBehaviour:

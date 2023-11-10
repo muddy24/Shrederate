@@ -31,26 +31,40 @@ public class GameManager : MonoBehaviour
                 //spawn at new location
                 if (Input.GetMouseButtonDown(0))
                 {
+                    /*
                     if (sceneCam.GetComponent<SceneCam>().reticle.activeSelf)
                     {
                         transform.position = sceneCam.GetComponent<SceneCam>().reticle.transform.position + Vector3.up * 30f;
                         player.rb.transform.position = transform.position;
                         player.rb.velocity = Vector3.zero;
                     }
-                    SetState("default");
+                    SetState("default");*/
+
+                    mountain.GetComponent<Mountain>().CreateSlope(sceneCam.GetComponent<SceneCam>().reticle.transform.position);
                     
                 }
                 break;
+
+            case "cannonLoading":
+                //
+                break;
+
+            case "cannonLaunching":
+                //
+                break;
+
             case "default":
                 if (Input.GetButtonDown("Map"))
                 {
                     SetState("map");
+                    sceneCam.GetComponent<SceneCam>().SnapToMainCam();
+                    sceneCam.GetComponent<SceneCam>().SetTarget(mountain.GetComponent<Mountain>().camTarget, mountain.GetComponent<Mountain>().camPosition.transform.position);                  
                 }
                 break;
         }
     }
 
-    private void SetState(string s)
+    public void SetState(string s)
     {
         gameState = s;
 
@@ -64,7 +78,21 @@ public class GameManager : MonoBehaviour
         {
             player.moveEnabled = false;
             sceneCam.enabled = true;
+            sceneCam.GetComponent<SceneCam>().rotationEnabled = true;
+            playerCam.enabled = false;
+            sceneCam.GetComponent<SceneCam>().SetTarget(mountain.GetComponent<Mountain>().camTarget, mountain.GetComponent<Mountain>().camPosition.transform.position);
+        }
+        if(s == "cannonLoading")
+        {
+            sceneCam.GetComponent<SceneCam>().rotationEnabled = true;
+            player.moveEnabled = false;
+            sceneCam.enabled = true;
             playerCam.enabled = false;
         }
+    }
+    
+    public void SetSceneCamTarget(GameObject t, Vector3 tPos)
+    {
+        sceneCam.GetComponent<SceneCam>().SetTarget(t, tPos);
     }
 }

@@ -18,7 +18,9 @@ public class TerrainMesh : MonoBehaviour
     public float ridgeSmoothing = 0.5f;
     public float reshapeEdgeRadiusPercent = 1f; //radius of map edge as a percent of original mesh size
     public float bowlHeightPercent = 0.5f;
+    public Vector2 noiseSeed = new Vector2();
 
+    public Vector3 peak = Vector3.zero;
     
 
     //float noiseSeed = 0;
@@ -188,7 +190,8 @@ public class TerrainMesh : MonoBehaviour
     //just the matrix of points, does not send data to a mesh
     public void GenerateTerrain()
     {
-        float[,] heights = Noise.GenerateNoise(mapWidth+1, noiseScale, new Vector2(Random.Range(0,1000),Random.Range(0,1000)), octaves, persistence, lacunarity, ridgeSmoothing);
+        noiseSeed = new Vector2(Random.Range(0, 1000), Random.Range(0, 1000));
+        float[,] heights = Noise.GenerateNoise(mapWidth+1, noiseScale, noiseSeed, octaves, persistence, lacunarity, ridgeSmoothing);
         
         int vertexIndex = 0;
 
@@ -198,6 +201,12 @@ public class TerrainMesh : MonoBehaviour
             {
                 vertexIndex = (y * (mapWidth+1)) + x;
                 MoveVert(vertexIndex, new Vector3(vertices[vertexIndex].x, heights[x, y] * noiseAmplitude, vertices[vertexIndex].z));
+
+                //keep track of highest point
+                if(heights[x,y]*noiseAmplitude > peak.y)
+                {
+                    peak = vertices[vertexIndex];
+                }
             }
         }
 

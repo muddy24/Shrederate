@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LOD: 1
+  treePositions: []
 --- !u!64 &4140048981984697987
 MeshCollider:
   m_ObjectHideFlags: 0
