@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
                     }
                     SetState("default");*/
 
-                    mountain.GetComponent<Mountain>().CreateSlope(sceneCam.GetComponent<SceneCam>().reticle.transform.position);
+                    mountain.GetComponent<Mountain>().CreateSlopesAt(sceneCam.GetComponent<SceneCam>().reticle.transform.position);
                     
                 }
                 break;
@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
             player.moveEnabled = true;
             sceneCam.enabled = false;
             playerCam.enabled = true;
+            mountain.GetComponent<Mountain>().HideSlopes();
         }
         if(s == "map")
         {
@@ -81,6 +82,7 @@ public class GameManager : MonoBehaviour
             sceneCam.GetComponent<SceneCam>().rotationEnabled = true;
             playerCam.enabled = false;
             sceneCam.GetComponent<SceneCam>().SetTarget(mountain.GetComponent<Mountain>().camTarget, mountain.GetComponent<Mountain>().camPosition.transform.position);
+            mountain.GetComponent<Mountain>().ShowSlopes();
         }
         if(s == "cannonLoading")
         {

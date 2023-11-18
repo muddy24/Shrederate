@@ -51,7 +51,6 @@ public class MeshSpawner : MonoBehaviour
             positionBatches.Add(thisBatch);
             i++;
         }
-        Debug.Log(positionBatches.Count);
     }
 
     // Update is called once per frame
