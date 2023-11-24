@@ -31,16 +31,16 @@ public class GameManager : MonoBehaviour
                 //spawn at new location
                 if (Input.GetMouseButtonDown(0))
                 {
-                    /*
+                    
                     if (sceneCam.GetComponent<SceneCam>().reticle.activeSelf)
                     {
                         transform.position = sceneCam.GetComponent<SceneCam>().reticle.transform.position + Vector3.up * 30f;
                         player.rb.transform.position = transform.position;
                         player.rb.velocity = Vector3.zero;
                     }
-                    SetState("default");*/
+                    SetState("default");
 
-                    mountain.GetComponent<Mountain>().CreateSlopesAt(sceneCam.GetComponent<SceneCam>().reticle.transform.position);
+                    //mountain.GetComponent<Mountain>().CreateSlopesAt(sceneCam.GetComponent<SceneCam>().reticle.transform.position);
                     
                 }
                 break;

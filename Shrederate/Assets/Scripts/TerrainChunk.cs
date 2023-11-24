@@ -17,15 +17,21 @@ public class TerrainChunk : MonoBehaviour
 
     Vector3[] vertices;
     int[] triangles;
+    Color[] colors;
+
+    public Color snowColor;
+    public Color rockColor;
 
     public List<Vector3> treePositions = new List<Vector3>();
 
     //fills vertices[] with position data to create a flat plane
-    public void CreateChunk(Vector3[] verts, int lod, Vector2 boxBoundStart, Vector2 boxBoundEnd)
+    public void CreateChunk(Vector3[] verts, int lod, Vector2 boxBoundStart, Vector2 boxBoundEnd)//, Color[] cols)
     {
         treePositions = new List<Vector3>();
         LOD = lod;
         vertices = verts;
+        
+        //colors = cols;
 
         /*boundsObject.AddComponent<BoxCollider>();
         boxBounds = boundsObject.GetComponent<BoxCollider>();
@@ -90,8 +96,26 @@ public class TerrainChunk : MonoBehaviour
 
         mesh.vertices = vertices;
         mesh.triangles = triangles;
+        mesh.normals = new Vector3[vertices.Length];
 
         mesh.RecalculateNormals();
+
+        //UpdateColor();
+    }
+
+    //sets color based on slope. Slopes over 45 degrees get rock color
+    //VERY bad performance for some reason
+    public void UpdateColor()
+    {
+        colors = new Color[vertices.Length];
+        for(int i = 0; i < mesh.normals.Length; i++)
+        {
+            if (mesh.normals[i].y > .5f)
+                colors[i] = snowColor;
+            else
+                colors[i] = rockColor;
+        }
+        mesh.colors = colors;
     }
 
     public Collider GetCollider()

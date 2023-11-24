@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Dreamteck.Splines;
 
 public class TerrainMesh : MonoBehaviour
 {
@@ -19,8 +20,11 @@ public class TerrainMesh : MonoBehaviour
     public float reshapeEdgeRadiusPercent = 1f; //radius of map edge as a percent of original mesh size
     public float bowlHeightPercent = 0.5f;
     public Vector2 noiseSeed = new Vector2();
+    public AnimationCurve slopeEdgeSmoothing;
+    public AnimationCurve slopeStartSmoothing;
 
     public Vector3 peak = Vector3.zero;
+    public Vector3 terrainMin = new Vector3(0, 99999, 0);
     
 
     //float noiseSeed = 0;
@@ -33,6 +37,8 @@ public class TerrainMesh : MonoBehaviour
     //Split into chunks for display and optimization
     Vector3[] vertices;
     int[] triangles;
+    Color[] colors;
+    public Gradient gradient;
 
     //chunk stuff
     public int numChunks = 2; //number PER SIDE. MUST BE a divisor of mapWidth
@@ -70,7 +76,7 @@ public class TerrainMesh : MonoBehaviour
         }
 
         CreateShape();
-        GenerateTerrain();
+        GenerateTerrain();       
         CreateChunks();
         //UpdateMesh();
 
@@ -101,11 +107,11 @@ public class TerrainMesh : MonoBehaviour
                     else if (dist < chunkSize * 2)
                         newLOD = 3;
                     else if (dist < chunkSize * 3)
-                        newLOD = 4;
+                        newLOD = 3;
                     else if (dist < chunkSize * 4)
-                        newLOD = 5;
+                        newLOD = 3;
                     else
-                        newLOD = 5;
+                        newLOD = 3;
 
                     if (chunks[x, y].GetComponent<TerrainChunk>().LOD != newLOD)
                         setChunkMesh(x, y, newLOD);
@@ -122,6 +128,111 @@ public class TerrainMesh : MonoBehaviour
             playerRB.velocity = Vector3.zero;
             GameEvents.current.LapStart();
         }
+    }
+
+    //takes a list of all the slopes and levels the green and blue ones
+    public void LevelSlopes(List<GameObject> slopes)
+    {
+        SplineSample sample = new SplineSample();
+        List<float> slopeHeights;
+        List<float> slopeWeights;
+
+        //get list of all indices of points that are on a slope
+        List<int> allSlopePointIndices = new List<int>();
+        foreach(GameObject s in slopes)
+        {
+            foreach(int index in s.GetComponent<Slope>().terrainPointIndices)
+            {
+                if(!allSlopePointIndices.Contains(index))
+                    allSlopePointIndices.Add(index);
+            }
+        }
+
+        //set height for each slope point
+        foreach(int index in allSlopePointIndices)
+        {
+            slopeHeights = new List<float>();
+            slopeWeights = new List<float>();
+
+            foreach (GameObject s in slopes)
+            {
+                if (s.GetComponent<Slope>().terrainPointIndices.Contains(index))
+                {
+                    s.GetComponent<Slope>().spline.Project(vertices[index], ref sample);
+                    float slopeWidthPercent = Vector3.Distance(vertices[index], sample.position) / 50;
+
+                    if (slopeWidthPercent < 1)
+                    {
+                        //at start and end of run, smooth linearly
+                        float endSmoothing = 1f;
+                        if (sample.percent == 1.0 || sample.percent == 0.0)
+                            slopeHeights.Add(Mathf.Lerp(sample.position.y, vertices[index].y, slopeWidthPercent));// endSmoothing = slopeWidthPercent;// 1-(slopeWidthPercent)*Mathf.Cos(Vector3.Angle(sample.forward * -1, vertices[i]-sample.position) * 3.14f/180);
+                        else
+                            slopeHeights.Add(Mathf.Lerp(vertices[index].y, sample.position.y, slopeEdgeSmoothing.Evaluate(slopeWidthPercent)));// * endSmoothing));
+                        slopeWeights.Add((50 - Vector3.Distance(vertices[index], sample.position)) / 50);
+                    }
+                }
+            }
+
+            //compile heights from all affecting slopes
+            if(slopeWeights.Count > 0)
+            {
+                float average = 0f;
+                float totalWeight = 0f;
+                for (int j = 0; j < slopeWeights.Count; j++)
+                    totalWeight += slopeWeights[j];
+                for (int j = 0; j < slopeHeights.Count; j++)
+                {
+                    average += slopeHeights[j] * (slopeWeights[j] / totalWeight);
+                }                
+                vertices[index] = new Vector3(vertices[index].x, average, vertices[index].z);
+            }
+        }
+
+        /*for(int i = 0; i < vertices.Length; i++)
+        {
+            slopeHeights = new List<float>();
+            slopeWeights = new List<float>();
+
+            foreach(GameObject s in slopes)
+            {
+                
+                s.GetComponent<Slope>().spline.Project(vertices[i], ref sample);
+
+                //distance from the center of the slope, normalized by the slope's width
+                float slopeWidthPercent = Vector3.Distance(vertices[i], sample.position)/50;
+                
+                if (slopeWidthPercent < 1)// && sample.percent != 1.0 && sample.percent!= 0.0)
+                {
+                    //at start and end of run, smooth linearly
+                    float endSmoothing = 1f;
+                    if (sample.percent == 1.0 || sample.percent == 0.0)
+                        slopeHeights.Add(Mathf.Lerp(sample.position.y, vertices[i].y, slopeWidthPercent));// endSmoothing = slopeWidthPercent;// 1-(slopeWidthPercent)*Mathf.Cos(Vector3.Angle(sample.forward * -1, vertices[i]-sample.position) * 3.14f/180);
+                    else
+                        slopeHeights.Add(Mathf.Lerp(vertices[i].y, sample.position.y, slopeEdgeSmoothing.Evaluate(slopeWidthPercent)));// * endSmoothing));
+                    slopeWeights.Add((50 - Vector3.Distance(vertices[i],sample.position))/50);
+                }
+
+            }
+            //average of heights for each nearby slope
+            if(slopeHeights.Count > 0)
+            {
+                float average = 0f;
+                float totalWeight = 0f;
+                for (int j = 0; j < slopeWeights.Count; j++)
+                    totalWeight += slopeWeights[j];
+                for(int j = 0; j < slopeHeights.Count; j++)
+                {
+                    average += slopeHeights[j] * (slopeWeights[j]/totalWeight);
+                }                   
+                //average /= slopeHeights.Count;
+                vertices[i] = new Vector3(vertices[i].x, average, vertices[i].z);
+            }
+                
+        }*/
+
+        UpdateMesh();
+        CreateChunks();
     }
 
     //create chunks from vertices array
@@ -147,6 +258,7 @@ public class TerrainMesh : MonoBehaviour
         int indexToAdd;
 
         List<Vector3> chunkVerts = new List<Vector3>();
+        List<Color> chunkColors = new List<Color>();
 
         //loop through points in each chunk
         for (int chunkY = 0; chunkY <= chunkSize; chunkY += spacing)
@@ -155,6 +267,7 @@ public class TerrainMesh : MonoBehaviour
             {
                 indexToAdd = (y * (numChunks * (int)Mathf.Pow(chunkSize, 2) + chunkSize)) + (chunkY * (mapWidth + 1)) + (x * (chunkSize)) + chunkX;
                 chunkVerts.Add(vertices[indexToAdd]);
+                //chunkColors.Add(colors[indexToAdd]);
             }
         }
 
@@ -181,7 +294,7 @@ public class TerrainMesh : MonoBehaviour
 
         //add new chunk to chunks matrix
         chunks[x, y] = Instantiate(chunkPrefab, Vector3.zero, Quaternion.identity);
-        chunks[x, y].GetComponent<TerrainChunk>().CreateChunk(chunkVerts.ToArray(), lod, new Vector2(x*chunkSize,y*chunkSize)*2, new Vector2((x+1)* chunkSize, ((y+1)*chunkSize))*2);
+        chunks[x, y].GetComponent<TerrainChunk>().CreateChunk(chunkVerts.ToArray(), lod, new Vector2(x * chunkSize, y * chunkSize) * vectorSpacing, new Vector2((x + 1) * chunkSize, ((y + 1) * chunkSize)) * vectorSpacing);//, chunkColors.ToArray());
         chunks[x, y].transform.parent = gameObject.transform;
         chunks[x, y].GetComponent<TerrainChunk>().treePositions = treePosTemp;
     }
@@ -192,7 +305,6 @@ public class TerrainMesh : MonoBehaviour
     {
         noiseSeed = new Vector2(Random.Range(0, 1000), Random.Range(0, 1000));
         float[,] heights = Noise.GenerateNoise(mapWidth+1, noiseScale, noiseSeed, octaves, persistence, lacunarity, ridgeSmoothing);
-        
         int vertexIndex = 0;
 
         for(int y = 0; y <= mapWidth; y++)
@@ -202,13 +314,28 @@ public class TerrainMesh : MonoBehaviour
                 vertexIndex = (y * (mapWidth+1)) + x;
                 MoveVert(vertexIndex, new Vector3(vertices[vertexIndex].x, heights[x, y] * noiseAmplitude, vertices[vertexIndex].z));
 
-                //keep track of highest point
+                //keep track of highest/lowest point
                 if(heights[x,y]*noiseAmplitude > peak.y)
                 {
                     peak = vertices[vertexIndex];
                 }
+                if(heights[x,y]*noiseAmplitude < terrainMin.y)
+                {
+                    terrainMin = vertices[vertexIndex];
+                }
             }
         }
+
+        /*colors = new Color[vertices.Length];
+        for (int i = 0, z = 0; z <= mapWidth; z++)
+        {
+            for (int x = 0; x <= mapWidth; x++)
+            {
+                //float height = vertices[i].y;
+                colors[i] = gradient.Evaluate(EstimateNormal(i).y);
+                i++;
+            }
+        }*/
 
         ShapeBottomBowl();
     }
@@ -332,6 +459,19 @@ public class TerrainMesh : MonoBehaviour
         return ret;
     }
 
+    //Estimates normal based on adjacent points
+    //Not working correctly
+    public Vector3 EstimateNormal(int i)
+    {
+        Vector3 normal = Vector3.zero;
+        foreach (int index in getAdjacentIndices(i))
+        {
+            if(index < vertices.Length && index >= 0)
+                normal += vertices[index]-vertices[i];
+        }
+        return normal.normalized;
+    }
+
     //Move vertex to newPos
     void MoveVert(int i, Vector3 newPos)
     {
@@ -351,6 +491,7 @@ public class TerrainMesh : MonoBehaviour
 
         mesh.vertices = vertices;
         mesh.triangles = triangles;
+        mesh.colors = colors;
 
         mesh.RecalculateNormals();
     }

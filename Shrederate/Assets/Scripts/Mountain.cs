@@ -53,11 +53,11 @@ public class Mountain : MonoBehaviour
 
         
         //create tree objects
-        /*trees = new GameObject[maxActiveTrees];
+        trees = new GameObject[maxActiveTrees];
         for(int i = 0; i < maxActiveTrees; i++)
         {
             trees[i] = Instantiate(tree, Vector3.zero, Quaternion.identity);
-        }*/
+        }
         
         treePositions = new List<Vector3>();
 
@@ -84,11 +84,11 @@ public class Mountain : MonoBehaviour
             {
                 double travel = spline.Travel(0.0, distance, Spline.Direction.Forward);
                 //right side
-                Vector3 startPoint = spline.EvaluatePosition(travel) + (spline.Evaluate(travel).right * 100);               
-                CreateSlopesAt(GetPointAtPosition(new Vector2(startPoint.x, startPoint.z)));
+                Vector3 startPoint = spline.EvaluatePosition(travel) + (spline.Evaluate(travel).right * 50);               
+                CreateSlopesAt(GetPointAtPosition(new Vector2(startPoint.x, startPoint.z)), spline.EvaluatePosition(travel));
                 //left side
-                startPoint = spline.EvaluatePosition(travel) + (spline.Evaluate(travel).right * -100);
-                CreateSlopesAt(GetPointAtPosition(new Vector2(startPoint.x, startPoint.z)));
+                startPoint = spline.EvaluatePosition(travel) + (spline.Evaluate(travel).right * -50);
+                CreateSlopesAt(GetPointAtPosition(new Vector2(startPoint.x, startPoint.z)), spline.EvaluatePosition(travel));
 
             }
         }
@@ -106,41 +106,38 @@ public class Mountain : MonoBehaviour
             }
         }*/
 
-        //create peak slopes
-        /*CreateSlopesAt(GetPointAtPosition(peakPoint + new Vector2(50, 0)));
-        CreateSlopesAt(GetPointAtPosition(peakPoint + new Vector2(-50, 0)));
-        CreateSlopesAt(GetPointAtPosition(peakPoint + new Vector2(0, 50)));
-        CreateSlopesAt(GetPointAtPosition(peakPoint + new Vector2(0, -50)));
-
-        //create a bunch of other slopes
-        for(int i = 1; i <= 10; i++)
-        {
-            for(int j = 0; j < 360; j +=5)
-            {
-                CreateSlopesAt(GetPointAtPosition(peakPoint + rotateV2(Vector3.left, j) * 100 * i));
-            }
-        }*/
-
         HideSlopes();
         
+        //spawn sphere colliders and add terrain point indices to slope
         foreach (GameObject g in slopes)
         {
             g.GetComponent<Slope>().SpawnColliders();
+            g.GetComponent<Slope>().terrainPointIndices = new List<int>();
+            foreach(GameObject sphere in g.GetComponent<Slope>().spheres)
+            {
+                foreach(int i in SphereColliderTerrainIndices(sphere.GetComponent<SphereCollider>()))
+                {
+                    if (!g.GetComponent<Slope>().terrainPointIndices.Contains(i))
+                        g.GetComponent<Slope>().terrainPointIndices.Add(i);
+                }
+                
+            }
         }
 
+        terrain.LevelSlopes(slopes);
+
+        
         //generate tree locations
         float samplePoint = Random.Range(0, 10000);       
         for (int x = 0; x < mapSize; x += treeSpacing)
         {
             for(int z = 0; z < mapSize; z += treeSpacing)
             {
-                //if (Mathf.PerlinNoise(samplePoint + (x / mapSize) * treeNoiseScale, (z / mapSize) * treeNoiseScale) < Random.Range(0f,treeNoiseCuttoff))
-                //{
-                    RaycastHit hit;
-                    Physics.Raycast(new Vector3(x,9999,z), Vector3.down, out hit, Mathf.Infinity);
+                RaycastHit hit;
+                Physics.Raycast(new Vector3(x,9999,z), Vector3.down, out hit, Mathf.Infinity);
 
-                    if (hit.collider != null)
-                    {
+                if (hit.collider != null)
+                {
                     if (hit.collider.gameObject.tag != "SlopeCollider")
                     {
 
@@ -150,12 +147,6 @@ public class Mountain : MonoBehaviour
                         //assign tree position to chunk
                         foreach (GameObject chunk in terrain.GetChunks())
                         {
-                            /*Bounds b = chunk.GetComponent<Renderer>().bounds;
-                            if(b.min.x < hit.point.x && b.max.x > hit.point.x && b.min.z < hit.point.z && b.max.z > hit.point.z)
-                            {
-                                chunk.GetComponent<TerrainChunk>().treePositions.Add(hit.point);
-                                break;
-                            }*/
                             if (chunk.GetComponent<TerrainChunk>().chunkBounds.Contains(hit.point))
                             {
                                 chunk.GetComponent<TerrainChunk>().treePositions.Add(hit.point);
@@ -163,31 +154,58 @@ public class Mountain : MonoBehaviour
                             }
                         }
                     }
-                    }
-                //}
+                }
+
             }
         }
-
+        
         foreach(GameObject g in slopes)
         {
             g.GetComponent<Slope>().DespawnColliders();
         }
-
+        
         //GPU instancing for distant trees
         treeSpawner = transform.GetComponent<MeshSpawner>();
         treeSpawner.SetPositions(treePositions, new Vector3(-90,0,0));
 
         //find local maxima and minima
-        int initialSearchSize = 124;
+        /*int initialSearchSize = 124;
         Vector2 searchStartPoint = new Vector2(300, 300);
         //int refinements = 3;
         
         foreach(Vector2 v in findLocalMinima(searchStartPoint, initialSearchSize, (int)(terrain.mapWidth*terrain.vectorSpacing/searchStartPoint.x)))
         {
             minima.Add(Instantiate(cannon, new Vector3(v.x * terrain.vectorSpacing, terrain.GetHeightAtXY(v), v.y * terrain.vectorSpacing), Quaternion.identity));
+        }*/
+        
+        camTarget.transform.position = new Vector3(.5f, 0.0f, .5f) * terrain.mapWidth * terrain.vectorSpacing;
+    }
+
+    //returns indices of terrain verts within a sphere collider
+    private List<int> SphereColliderTerrainIndices(SphereCollider col)
+    {
+        int mapWidth = terrain.mapWidth+1;
+        int colliderVertRadius = (int)(col.radius* col.transform.localScale.x / terrain.vectorSpacing);
+        int centerXVert = (int)(col.transform.position.x / terrain.vectorSpacing);
+        int centerYVert = (int)(col.transform.position.z / terrain.vectorSpacing);
+
+        List<int> ret = new List<int>();
+
+        //loop over verts in a square around the sphere
+        for(int x = centerXVert - colliderVertRadius; x < centerXVert + colliderVertRadius; x++)
+        {
+            for(int y = centerYVert - colliderVertRadius; y < centerYVert + colliderVertRadius; y++)
+            {
+                //add index to return list if it's within the radius of the sphere
+                if(Vector2.Distance(new Vector2(x,y), new Vector2(centerXVert,centerYVert)) < colliderVertRadius)
+                {
+                    ret.Add(y * mapWidth + x);
+                }
+                    
+            }
         }
 
-        camTarget.transform.position = new Vector3(.5f, 0.0f, .5f) * terrain.mapWidth * terrain.vectorSpacing;
+        return ret;
     }
 
     public void HideSlopes()
@@ -222,7 +240,7 @@ public class Mountain : MonoBehaviour
         int i = 0;
 
         //get second point
-        while (i < 180)
+        while (i < 360)
         {
             nextPos = GetPointAtPosition(new Vector2(currentPos.x, currentPos.z) + moveDirection * stepSize);
             if (IsRidge(new Vector2(nextPos.x, nextPos.z), 5))
@@ -291,12 +309,24 @@ public class Mountain : MonoBehaviour
 
     }
 
+    //overload with no branch position
+    public void CreateSlopesAt(Vector3 startPos)
+    {
+        CreateSlopesAt(startPos, Vector3.zero);
+    }
+
     //recursively generates slopes from startpos
     //goes downhill untill the slope grade changes, then adds slopes from the bottom
-    public void CreateSlopesAt(Vector3 startPos)
+    public void CreateSlopesAt(Vector3 startPos, Vector3 branchPos)
     {
         List<Vector3> ret = new List<Vector3>();
         List<Vector3> normals = new List<Vector3>();
+        //add branchpos from parent spline if available
+        if(branchPos != Vector3.zero)
+        {
+            ret.Add(branchPos);
+            normals.Add(GetNormalAtPosition(branchPos));
+        }
         ret.Add(startPos);
         normals.Add(GetNormalAtPosition(startPos));
 
@@ -309,7 +339,7 @@ public class Mountain : MonoBehaviour
         string thisSlopeGrade = GetGradeAtPosition(new Vector2(startPos.x,startPos.z));
 
         //find points to add to this slope
-        while(GetGradeAtPosition(new Vector2(currentPos.x, currentPos.z)) == thisSlopeGrade && ret.Count < 20 && terrain.DistanceToCenterAxis(currentPos) < 2000)
+        while(GetGradeAtPosition(new Vector2(currentPos.x, currentPos.z)) == thisSlopeGrade && ret.Count < 20 && terrain.DistanceToCenterAxis(currentPos) < (terrain.mapWidth/2)*terrain.vectorSpacing*.8f)
         {            
             normal = GetNormalAtPosition(currentPos);
             moveDirection = new Vector2(normal.x, normal.z).normalized * stepSize;
@@ -363,15 +393,15 @@ public class Mountain : MonoBehaviour
 
         //get new points and recurse
         normal = GetNormalAtPosition(currentPos);
-        moveDirection = new Vector2(normal.x, normal.z).normalized * stepSize * 2;
+        moveDirection = new Vector2(normal.x, normal.z).normalized * stepSize;
         nextPos = GetPointAtPosition(new Vector2(currentPos.x, currentPos.z) + moveDirection);
-        CreateSlopesAt(nextPos);
+        CreateSlopesAt(nextPos, currentPos);
         moveDirection = rotateV2(moveDirection, 90);
         nextPos = GetPointAtPosition(new Vector2(currentPos.x, currentPos.z) + moveDirection);
-        CreateSlopesAt(nextPos);
+        CreateSlopesAt(nextPos, currentPos);
         moveDirection = rotateV2(moveDirection, -180);
         nextPos = GetPointAtPosition(new Vector2(currentPos.x, currentPos.z) + moveDirection);
-        CreateSlopesAt(nextPos);
+        CreateSlopesAt(nextPos, currentPos);
     }
 
     //returns grade based on average normal of all slope points
@@ -590,22 +620,31 @@ public class Mountain : MonoBehaviour
         //only checks close chunk positions
         foreach(GameObject chunk in terrain.GetChunks())
         {
-            if(chunk.GetComponent<TerrainChunk>().LOD <= 3)
+            if(chunk.GetComponent<TerrainChunk>().LOD == 1)
             {
                 foreach (Vector3 pos in chunk.GetComponent<TerrainChunk>().treePositions)
                 {
+                    Debug.Log("DrawDist: " + treeDrawDistance + "PlayerDist : " + Vector3.Distance(player.transform.position, pos));
                     if (Vector3.Distance(player.transform.position, pos) < treeDrawDistance)
                     {
+                        Debug.Log("Valid tree pos");
                         //check if there's already a tree there
                         bool alreadySpawned = false;
 
                         foreach (GameObject tree in trees)
                         {
                             if (tree.transform.position == pos)
+                            {
                                 alreadySpawned = true;
+                                break;
+                            }
                         }
                         if (!alreadySpawned)
+                        {
+                            Debug.Log("Spawning Tree");
                             GetFreeTree().GetComponent<ObjectScript>().SpawnAt(pos);
+                        }
+                            
                     }
                 }
             }

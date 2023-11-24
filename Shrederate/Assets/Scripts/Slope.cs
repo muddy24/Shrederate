@@ -7,6 +7,7 @@ using Dreamteck.Splines;
 public class Slope : MonoBehaviour
 {
     public SplinePoint[] pathPoints;
+    public List<int> terrainPointIndices;
     public string grade;
     public SplineComputer spline;
 
@@ -14,8 +15,6 @@ public class Slope : MonoBehaviour
     public List<GameObject> spheres = new List<GameObject>();
 
     public SplineComputer colliderSpline;
-    //public MeshFilter colMesh;
-    //MeshCollider mc;
 
     public Material greenMat;
     public Material blueMat;

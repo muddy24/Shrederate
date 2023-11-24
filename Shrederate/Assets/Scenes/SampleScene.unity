@@ -344,18 +344,87 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dirtSemiSphere: {fileID: 1950186987}
-  mapWidth: 2400
-  vectorSpacing: 2
-  noiseScale: 750
+  mapWidth: 800
+  vectorSpacing: 5
+  noiseScale: 250
   noiseAmplitude: 1000
   octaves: 4
-  persistence: 0.2
+  persistence: 0.15
   lacunarity: 2.5
   ridgeSmoothing: 0.3
   reshapeEdgeRadiusPercent: 1
   bowlHeightPercent: 0.5
   noiseSeed: {x: 0, y: 0}
+  slopeEdgeSmoothing:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.17004089
+    - serializedVersion: 3
+      time: 0.7
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.31759393
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.7061482
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  slopeStartSmoothing:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   peak: {x: 0, y: 0, z: 0}
+  terrainMin: {x: 0, y: 99999, z: 0}
+  gradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 0.46226418, g: 0.28640196, b: 0.14245875, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
   numChunks: 10
   chunkPrefab: {fileID: 3969048430564252616, guid: 5f8be0ef8f165cd48b84eb6f859b7904, type: 3}
 --- !u!4 &189199852
@@ -396,7 +465,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 40dbfd89233d2c9438bd2cfe639f3d05, type: 2}
+  - {fileID: 2100000, guid: ac57c370eeac90b4894f2f2c08ea801a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -462,10 +531,10 @@ MonoBehaviour:
   camPosition: {fileID: 977701044}
   minima: []
   tree: {fileID: 776915681978321915, guid: 395dab897d2a43a4f8cdf712a46b1a32, type: 3}
-  treeSpacing: 10
-  maxActiveTrees: 1000
-  treeDrawDistance: 400
-  treeLODDistance: 200
+  treeSpacing: 30
+  maxActiveTrees: 200
+  treeDrawDistance: 200
+  treeLODDistance: 100
   treeAltitudeModifier: 0.5
   treeGradientModifier: 0.9
   treeNoiseScale: 10
@@ -649,7 +718,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 571701170}
-  m_LocalRotation: {x: 0.07665918, y: 9.774624e-23, z: 1.1668714e-23, w: 0.9970574}
+  m_LocalRotation: {x: 0.076659106, y: 0.000000019465036, z: -0.0000000014965761, w: 0.9970574}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2217,7 +2286,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1601657910}
-  m_LocalRotation: {x: 0.02769566, y: -0.26230225, z: 0.007531562, w: 0.96455884}
+  m_LocalRotation: {x: 0.027503926, y: -0.28572902, z: 0.008204228, w: 0.95788056}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2422,8 +2491,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718776772}
-  m_LocalRotation: {x: 0.45996067, y: 0.000000028138574, z: -0.000000014576039, w: 0.8879393}
-  m_LocalPosition: {x: 0, y: 1.6329956, z: 1.2902832}
+  m_LocalRotation: {x: 0.2811858, y: -0.00000001827314, z: 0.00000000535417, w: 0.9596534}
+  m_LocalPosition: {x: 0, y: 0.45239258, z: -0.15454102}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2577,7 +2646,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1862670428}
-  m_LocalRotation: {x: 0.036689773, y: -0.2158571, z: 0.008116978, w: 0.9757017}
+  m_LocalRotation: {x: 0.036520243, y: -0.2353111, z: 0.008848515, w: 0.97119343}
   m_LocalPosition: {x: 2403, y: 1002.2167, z: 2400.441}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

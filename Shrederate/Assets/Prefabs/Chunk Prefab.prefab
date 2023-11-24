@@ -30,6 +30,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -46,7 +47,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44a6dda130bc3cb4b9327f1659841b79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chunkBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
   LOD: 1
+  snowColor: {r: 1, g: 1, b: 1, a: 0}
+  rockColor: {r: 0.33962262, g: 0.20797405, b: 0.0918476, a: 1}
   treePositions: []
 --- !u!64 &4140048981984697987
 MeshCollider:
@@ -81,6 +87,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -89,7 +96,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 348a5be8eadfe5f4d83e6fa0ded7e0f6, type: 2}
+  - {fileID: 2100000, guid: ac57c370eeac90b4894f2f2c08ea801a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
