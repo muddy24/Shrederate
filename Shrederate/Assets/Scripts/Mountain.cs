@@ -38,9 +38,15 @@ public class Mountain : MonoBehaviour
     public int treeLODDistance = 50;
     public float treeAltitudeModifier = .5f;
     public float treeGradientModifier = .9f;
-    MeshSpawner treeSpawner;
+    public MeshSpawner treeSpawner;
     public float treeNoiseScale;//should be around 10
     public float treeNoiseCuttoff;//should be between 0.0 and 1.0
+
+    public GameObject signPrefab;
+
+    List<Vector3> fencePositions = new List<Vector3>();
+    List<Vector3> fenceRotations = new List<Vector3>();
+    public MeshSpawner fenceSpawner;
 
     public GameObject player;
 
@@ -93,6 +99,8 @@ public class Mountain : MonoBehaviour
             }
         }
 
+        Instantiate(signPrefab, terrain.peak, Quaternion.identity);
+
         //Samples ridge points
         /*
         for(int i = 500; i < 3500; i += 50)
@@ -126,7 +134,24 @@ public class Mountain : MonoBehaviour
 
         terrain.LevelSlopes(slopes);
 
-        
+        //reset slope points to fix normals after leveling, set trials
+        foreach(GameObject g in slopes)
+        {
+            List<Vector3> posList = new List<Vector3>();
+            List<Vector3> normals = new List<Vector3>();
+
+            foreach(SplinePoint sp in g.GetComponent<Slope>().pathPoints)
+            {
+                posList.Add(sp.position);
+                normals.Add(GetNormalAtPosition(sp.position));
+            }
+
+            g.GetComponent<Slope>().SetSlopePoints(posList, normals);
+            g.GetComponent<Trial>().SetTrial();
+        }
+
+        StartCoroutine(WaitOneFrame());
+
         //generate tree locations
         float samplePoint = Random.Range(0, 10000);       
         for (int x = 0; x < mapSize; x += treeSpacing)
@@ -134,7 +159,7 @@ public class Mountain : MonoBehaviour
             for(int z = 0; z < mapSize; z += treeSpacing)
             {
                 RaycastHit hit;
-                Physics.Raycast(new Vector3(x,9999,z), Vector3.down, out hit, Mathf.Infinity);
+                Physics.Raycast(new Vector3(x + Random.Range(-1,1)*treeSpacing*.4f,9999,z+Random.Range(-1,1)*treeSpacing*.4f), Vector3.down, out hit, Mathf.Infinity);
 
                 if (hit.collider != null)
                 {
@@ -163,22 +188,43 @@ public class Mountain : MonoBehaviour
         {
             g.GetComponent<Slope>().DespawnColliders();
         }
-        
-        //GPU instancing for distant trees
-        treeSpawner = transform.GetComponent<MeshSpawner>();
-        treeSpawner.SetPositions(treePositions, new Vector3(-90,0,0));
 
-        //find local maxima and minima
-        /*int initialSearchSize = 124;
-        Vector2 searchStartPoint = new Vector2(300, 300);
-        //int refinements = 3;
-        
-        foreach(Vector2 v in findLocalMinima(searchStartPoint, initialSearchSize, (int)(terrain.mapWidth*terrain.vectorSpacing/searchStartPoint.x)))
+        //GPU instancing for distant trees
+        //treeSpawner = transform.GetComponent<MeshSpawner>();
+        treeSpawner.SetPositions(treePositions, new Vector3(-90,0,0), new Vector3(.95f, .95f, 1.45f));
+
+        /*
+        //generate fence locations and rotations
+        SplineSample sample = new SplineSample();
+        Quaternion q = Quaternion.identity;
+        foreach (GameObject s in slopes)
         {
-            minima.Add(Instantiate(cannon, new Vector3(v.x * terrain.vectorSpacing, terrain.GetHeightAtXY(v), v.y * terrain.vectorSpacing), Quaternion.identity));
-        }*/
-        
+            SplineComputer spline = s.GetComponent<SplineComputer>();
+            for(float d = 0; d < spline.CalculateLength()-10; d += 10)
+            {
+                spline.Evaluate(spline.Travel(0f, d, Spline.Direction.Forward), ref sample);
+
+                fencePositions.Add(GetPointAtPosition(sample.position + sample.right * 30));
+                q.SetLookRotation(sample.forward, GetNormalAtPosition(fencePositions[fencePositions.Count - 1]));
+                fenceRotations.Add(q.eulerAngles);
+
+                fencePositions.Add(GetPointAtPosition(sample.position - sample.right * 30));
+                q.SetLookRotation(sample.forward, GetNormalAtPosition(fencePositions[fencePositions.Count - 1]));
+                fenceRotations.Add(q.eulerAngles);
+                
+            }
+        }
+
+        //GPU instancing for fences
+        fenceSpawner.SetPositions(fencePositions, fenceRotations, 2);
+        */
         camTarget.transform.position = new Vector3(.5f, 0.0f, .5f) * terrain.mapWidth * terrain.vectorSpacing;
+    }
+
+    //returns after one frame, use to wait for terrain rebuild, etc
+    IEnumerator WaitOneFrame()
+    {
+        yield return 0;
     }
 
     //returns indices of terrain verts within a sphere collider
@@ -447,6 +493,12 @@ public class Mountain : MonoBehaviour
         );
     }
 
+    //overload with Vector3
+    private Vector3 GetPointAtPosition(Vector3 pos)
+    {
+        return GetPointAtPosition(new Vector2(pos.x, pos.z));
+    }
+
     //returns result of raycast down at point x,9999,y
     private Vector3 GetPointAtPosition(Vector2 pos)
     {
@@ -624,10 +676,8 @@ public class Mountain : MonoBehaviour
             {
                 foreach (Vector3 pos in chunk.GetComponent<TerrainChunk>().treePositions)
                 {
-                    Debug.Log("DrawDist: " + treeDrawDistance + "PlayerDist : " + Vector3.Distance(player.transform.position, pos));
                     if (Vector3.Distance(player.transform.position, pos) < treeDrawDistance)
                     {
-                        Debug.Log("Valid tree pos");
                         //check if there's already a tree there
                         bool alreadySpawned = false;
 
@@ -641,7 +691,6 @@ public class Mountain : MonoBehaviour
                         }
                         if (!alreadySpawned)
                         {
-                            Debug.Log("Spawning Tree");
                             GetFreeTree().GetComponent<ObjectScript>().SpawnAt(pos);
                         }
                             

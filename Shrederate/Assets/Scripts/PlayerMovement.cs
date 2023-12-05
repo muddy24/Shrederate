@@ -22,13 +22,13 @@ public class PlayerMovement : MonoBehaviour
 
     //movement stuff
     public float skateSpeedMax = 5;
-    public float maxSpeed = 20f;
+    public float maxSpeed = 10f;
     public float turnSmoothTime = 0.3f;
     public float turnTargetAngle = 0;
     public float currentTurnVelocity;
     public float turnStrength = 1;
     public float forwardStrength = 3;
-    public float jumpForce = 10;
+    public float jumpForce = 5;
     public float turnReductionAtFullForward = 0.5f; //how much harder it is to turn when pushing fwd. 1 means you can't turn, 0 mean there's no impact
     public bool moveEnabled = true;
 
@@ -115,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
             RaycastHit hit;
             Physics.Raycast(col.transform.position, Vector3.down, out hit, Mathf.Infinity);
             transform.up = GetMeshColliderNormal(hit);
-            turnTargetAngle = Mathf.SmoothDampAngle(turnTargetAngle, (90 * horizontalInput) * (1- verticalInput*turnReductionAtFullForward), ref currentTurnVelocity, turnSmoothTime);
+            turnTargetAngle = Mathf.SmoothDampAngle(turnTargetAngle, (45 * horizontalInput) * (1- verticalInput*turnReductionAtFullForward), ref currentTurnVelocity, turnSmoothTime);
             transform.Rotate(new Vector3(0, Vector3.SignedAngle(transform.forward, rb.velocity, transform.up) + turnTargetAngle, 0));
 
             // check to play turn sound or nah

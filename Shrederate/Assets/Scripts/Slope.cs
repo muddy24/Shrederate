@@ -20,6 +20,8 @@ public class Slope : MonoBehaviour
     public Material blueMat;
     public Material blackMat;
 
+    public Trial trial;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -87,7 +89,7 @@ public class Slope : MonoBehaviour
     {
         foreach(GameObject go in spheres)
         {
-            Destroy(go);
+            DestroyImmediate(go);
         }
     }
 

@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
             sceneCam.enabled = false;
             playerCam.enabled = true;
             mountain.GetComponent<Mountain>().HideSlopes();
+            RenderSettings.fog = true;
         }
         if(s == "map")
         {
@@ -83,6 +84,7 @@ public class GameManager : MonoBehaviour
             playerCam.enabled = false;
             sceneCam.GetComponent<SceneCam>().SetTarget(mountain.GetComponent<Mountain>().camTarget, mountain.GetComponent<Mountain>().camPosition.transform.position);
             mountain.GetComponent<Mountain>().ShowSlopes();
+            RenderSettings.fog = false;
         }
         if(s == "cannonLoading")
         {
@@ -90,6 +92,7 @@ public class GameManager : MonoBehaviour
             player.moveEnabled = false;
             sceneCam.enabled = true;
             playerCam.enabled = false;
+            RenderSettings.fog = true;
         }
     }
     

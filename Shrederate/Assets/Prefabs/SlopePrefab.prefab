@@ -761,6 +761,7 @@ GameObject:
   - component: {fileID: 2815431433936492919}
   - component: {fileID: 4787183072223472988}
   - component: {fileID: 396925341698261886}
+  - component: {fileID: 7374764449798562344}
   m_Layer: 0
   m_Name: SlopePrefab
   m_TagString: SlopeCollider
@@ -1494,6 +1495,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pathPoints: []
+  terrainPointIndices: 
   grade: 
   spline: {fileID: 7648598929248900364}
   sphere: {fileID: 4554773360298308368, guid: 911eca7da62f28541a32e0864f1756bc, type: 3}
@@ -1502,6 +1504,7 @@ MonoBehaviour:
   greenMat: {fileID: 2100000, guid: 1c7f33ade949a8040bc6a92de093e9b3, type: 2}
   blueMat: {fileID: -6478536213147159724, guid: 63c808ee9954b8140bc6080b2ba7cfc2, type: 3}
   blackMat: {fileID: 4874126678125670354, guid: 63c808ee9954b8140bc6080b2ba7cfc2, type: 3}
+  trial: {fileID: 7374764449798562344}
 --- !u!114 &396925341698261886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1610,3 +1613,19 @@ MonoBehaviour:
   _offset: {x: 0, y: 0}
   _rotationOffset: {x: 0, y: 0, z: 0}
   lastPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &7374764449798562344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7361798770824247387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a881d17d4f3642b4e8fda2e8e2fa02db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trialType: 
+  slopePath: {fileID: 0}
+  slalomFlag: {fileID: 6691801547105252827, guid: ad35622f988f43b4a9fbd61cacadcc35, type: 3}
+  slalomFlags: []

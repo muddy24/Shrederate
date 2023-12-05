@@ -7,6 +7,7 @@ TagManager:
   - Terrain
   - Logo
   - SlopeCollider
+  - PlayerSphere
   layers:
   - Default
   - TransparentFX

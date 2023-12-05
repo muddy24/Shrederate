@@ -105,7 +105,7 @@ public class TerrainMesh : MonoBehaviour
                     if (dist < chunkSize * 1)
                         newLOD = 1;
                     else if (dist < chunkSize * 2)
-                        newLOD = 3;
+                        newLOD = 2;
                     else if (dist < chunkSize * 3)
                         newLOD = 3;
                     else if (dist < chunkSize * 4)
@@ -188,51 +188,9 @@ public class TerrainMesh : MonoBehaviour
                 vertices[index] = new Vector3(vertices[index].x, average, vertices[index].z);
             }
         }
-
-        /*for(int i = 0; i < vertices.Length; i++)
-        {
-            slopeHeights = new List<float>();
-            slopeWeights = new List<float>();
-
-            foreach(GameObject s in slopes)
-            {
-                
-                s.GetComponent<Slope>().spline.Project(vertices[i], ref sample);
-
-                //distance from the center of the slope, normalized by the slope's width
-                float slopeWidthPercent = Vector3.Distance(vertices[i], sample.position)/50;
-                
-                if (slopeWidthPercent < 1)// && sample.percent != 1.0 && sample.percent!= 0.0)
-                {
-                    //at start and end of run, smooth linearly
-                    float endSmoothing = 1f;
-                    if (sample.percent == 1.0 || sample.percent == 0.0)
-                        slopeHeights.Add(Mathf.Lerp(sample.position.y, vertices[i].y, slopeWidthPercent));// endSmoothing = slopeWidthPercent;// 1-(slopeWidthPercent)*Mathf.Cos(Vector3.Angle(sample.forward * -1, vertices[i]-sample.position) * 3.14f/180);
-                    else
-                        slopeHeights.Add(Mathf.Lerp(vertices[i].y, sample.position.y, slopeEdgeSmoothing.Evaluate(slopeWidthPercent)));// * endSmoothing));
-                    slopeWeights.Add((50 - Vector3.Distance(vertices[i],sample.position))/50);
-                }
-
-            }
-            //average of heights for each nearby slope
-            if(slopeHeights.Count > 0)
-            {
-                float average = 0f;
-                float totalWeight = 0f;
-                for (int j = 0; j < slopeWeights.Count; j++)
-                    totalWeight += slopeWeights[j];
-                for(int j = 0; j < slopeHeights.Count; j++)
-                {
-                    average += slopeHeights[j] * (slopeWeights[j]/totalWeight);
-                }                   
-                //average /= slopeHeights.Count;
-                vertices[i] = new Vector3(vertices[i].x, average, vertices[i].z);
-            }
-                
-        }*/
-
         UpdateMesh();
         CreateChunks();
+
     }
 
     //create chunks from vertices array
@@ -242,7 +200,7 @@ public class TerrainMesh : MonoBehaviour
         {
             for(int x = 0; x < numChunks; x++)
             {
-                setChunkMesh(x, y, 5);
+                setChunkMesh(x, y, 1);
             }
         }
     }
