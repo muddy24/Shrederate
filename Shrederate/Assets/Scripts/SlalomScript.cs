@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class SlalomScript : MonoBehaviour
 {
-    public BoxCollider gateCollider;
+    public TrialUIManager uiManager;
+
+    public GameObject gateScreen;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        uiManager = GameObject.FindWithTag("UICanvas").GetComponent<TrialUIManager>();
     }
 
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "PlayerSphere")
         {
-            GameObject.FindWithTag("Player").GetComponent<PlayerInfo>().AddBucks(10);
+            uiManager.NotifyMissedGate(this);
+            //GameObject.FindWithTag("Player").GetComponent<PlayerInfo>().AddBucks(10);
             //other.gameObject.GetComponent<PlayerInfo>().AddBucks(10);
         }
     }

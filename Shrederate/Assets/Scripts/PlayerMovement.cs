@@ -57,8 +57,8 @@ public class PlayerMovement : MonoBehaviour
         rightSnowPuff.Stop();
         leftSnowPuff.Stop();
 
-        rb = GetComponentInChildren<Rigidbody>();
-        col = GetComponentInChildren<SphereCollider>();
+        //rb = GetComponentInChildren<Rigidbody>();
+        //col = GetComponentInChildren<SphereCollider>();
         anim = GetComponentInChildren<Animator>();
         sound = GetComponent<PlayerSoundHandler>();
 
@@ -113,14 +113,15 @@ public class PlayerMovement : MonoBehaviour
 
             //face direction
             RaycastHit hit;
-            Physics.Raycast(col.transform.position, Vector3.down, out hit, Mathf.Infinity);
+            LayerMask mask = LayerMask.GetMask("Terrain");
+            Physics.Raycast(col.transform.position, Vector3.down, out hit, Mathf.Infinity, mask);
             transform.up = GetMeshColliderNormal(hit);
             turnTargetAngle = Mathf.SmoothDampAngle(turnTargetAngle, (45 * horizontalInput) * (1- verticalInput*turnReductionAtFullForward), ref currentTurnVelocity, turnSmoothTime);
             transform.Rotate(new Vector3(0, Vector3.SignedAngle(transform.forward, rb.velocity, transform.up) + turnTargetAngle, 0));
 
             // check to play turn sound or nah
             if (Mathf.Abs(currentTurnVelocity) > 150 && (horizontalInput != 0)) {
-                sound.PlayTurn();
+                //sound.PlayTurn();
 
                 // would be cool to also apply a little boost like you get when you hit a turn in skiing
                 // should be the opposite direction of the way the skier's edge is hitting
@@ -210,7 +211,9 @@ public class PlayerMovement : MonoBehaviour
     {
         //cast down to find approximate ground normal under self
         RaycastHit vertHit;
-        Physics.Raycast(col.transform.position, Vector3.down, out vertHit, Mathf.Infinity, ~3);
+        int layer = 3;
+        int layerMask = 1 << layer;
+        Physics.Raycast(col.transform.position, Vector3.down, out vertHit, Mathf.Infinity, layerMask);
 
         //this means there's nothing under the player
         if(vertHit.collider == null)

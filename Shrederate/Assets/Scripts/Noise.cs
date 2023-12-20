@@ -5,7 +5,7 @@ using UnityEngine;
 public static class Noise 
 {
     //returns a float[,] with continuous perlin noise
-    public static float[,] GenerateNoise(int mapWidth, float scale, Vector2 perlinSeed, int octaves, float persistence, float lacunarity, float ridgeSmoothing) { 
+    public static float[,] GenerateNoise(int mapWidth, float scale, Vector2 perlinSeed, int octaves, float persistence, float lacunarity, float ridgeSmoothing, AnimationCurve edgeSmoothCurve) { 
 
         float[,] noiseMap = new float[mapWidth, mapWidth];
 
@@ -59,15 +59,17 @@ public static class Noise
             return a * h + b * (1 - h) - k * h * (1 - h);
         }
 
+
         //normalize values and flatten edges
         for (int y = 0; y < mapWidth; y++)
         {
             for (int x = 0; x < mapWidth; x++)
             {
                 //flattens the edges of the mountain
-                float flattenMultiplier = 1 - (DistanceToCenter(x, y, noiseMap) * 1.44f);
+                float flattenMultiplier = edgeSmoothCurve.Evaluate(DistanceToCenter(x, y, noiseMap)*1.44f);//1 - Mathf.Pow((DistanceToCenter(x, y, noiseMap) * 1.44f);
                 if(flattenMultiplier < 0) flattenMultiplier = 0;
 
+                //noiseMap[x, y] = ((flattenMultiplier * maxNoiseHeight) + noiseMap[x, y]) / 2; //average point and curve
                 noiseMap[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y]) * flattenMultiplier;//(1-(Mathf.Cos(Mathf.Lerp(0,3.14f,flattenMultiplier)) * .5f + .5f));
             }
         }
@@ -75,7 +77,7 @@ public static class Noise
         //check if the noise is centered, if not, regenerate noiseMap. move noise sample so that peak is in the middle
         //TODO: confirm that the centering is actually working. Might just be moving randomly if I screwed up the adjustment
         if (!CheckMaxCentered(noiseMap, 0.1f))
-            noiseMap = GenerateNoise(mapWidth, scale, perlinSeed + maxPoint(noiseMap) - new Vector2((mapWidth/2),(mapWidth/2)), octaves, persistence, lacunarity, ridgeSmoothing);
+            noiseMap = GenerateNoise(mapWidth, scale, perlinSeed + maxPoint(noiseMap) - new Vector2((mapWidth/2),(mapWidth/2)), octaves, persistence, lacunarity, ridgeSmoothing, edgeSmoothCurve);
 
                 return noiseMap;
     }

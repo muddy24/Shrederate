@@ -8,6 +8,9 @@ TagManager:
   - Logo
   - SlopeCollider
   - PlayerSphere
+  - SlopeProximity
+  - UICanvas
+  - Mountain
   layers:
   - Default
   - TransparentFX

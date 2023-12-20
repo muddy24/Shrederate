@@ -9,17 +9,28 @@ public class GameManager : MonoBehaviour
     PlayerMovement player;
     public CinemachineFreeLook playerCam;
     public Camera sceneCam;
+    public Camera mainCam;
     public GameObject mountain;
+    public Canvas pauseCanvas;
 
     // Start is called before the first frame update
     void Start()
     {
         player = transform.GetComponent<PlayerMovement>();
+        mainCam = Camera.main;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetButtonDown("Pause"))
+        {
+            if (gameState == "paused")
+                ResumeGame();
+            else
+                PauseGame();
+        }
+
         //state machine
         switch (gameState)
         {
@@ -53,6 +64,9 @@ public class GameManager : MonoBehaviour
                 //
                 break;
 
+            case "paused":
+                break;
+
             case "default":
                 if (Input.GetButtonDown("Map"))
                 {
@@ -64,6 +78,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void ResumeGame()
+    {
+        Time.timeScale = 1.0f;
+        gameState = "default";
+        pauseCanvas.enabled = false;
+    }
+
+    void PauseGame()
+    {
+        Time.timeScale = 0f;
+        gameState = "paused";
+        pauseCanvas.enabled = true;
+    }
+
     public void SetState(string s)
     {
         gameState = s;
@@ -71,10 +99,15 @@ public class GameManager : MonoBehaviour
         if(s == "default")
         {
             player.moveEnabled = true;
-            sceneCam.enabled = false;
+            sceneCam.enabled = false; 
             playerCam.enabled = true;
+            sceneCam.tag = "Untagged";
+            mainCam.tag = "MainCamera";
             mountain.GetComponent<Mountain>().HideSlopes();
             RenderSettings.fog = true;
+            //set trees to use LOD normally
+            foreach (GameObject tree in mountain.GetComponent<Mountain>().trees)
+                tree.GetComponent<LODGroup>().ForceLOD(-1);
         }
         if(s == "map")
         {
@@ -82,9 +115,14 @@ public class GameManager : MonoBehaviour
             sceneCam.enabled = true;
             sceneCam.GetComponent<SceneCam>().rotationEnabled = true;
             playerCam.enabled = false;
+            sceneCam.tag = "MainCamera";
+            mainCam.tag = "Untagged";
             sceneCam.GetComponent<SceneCam>().SetTarget(mountain.GetComponent<Mountain>().camTarget, mountain.GetComponent<Mountain>().camPosition.transform.position);
             mountain.GetComponent<Mountain>().ShowSlopes();
             RenderSettings.fog = false;
+            //set trees to chunky green ones
+            foreach (GameObject tree in mountain.GetComponent<Mountain>().trees)
+                tree.GetComponent<LODGroup>().ForceLOD(3);
         }
         if(s == "cannonLoading")
         {

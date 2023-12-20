@@ -9,10 +9,15 @@ public class Slope : MonoBehaviour
     public SplinePoint[] pathPoints;
     public List<int> terrainPointIndices;
     public string grade;
+    public string slopeName = "name";
     public SplineComputer spline;
+    public Vector3 slopeStartPos;
 
     public GameObject sphere;
     public List<GameObject> spheres = new List<GameObject>();
+
+    public GameObject signPrefab;
+    public GameObject startSign;
 
     public SplineComputer colliderSpline;
 
@@ -22,12 +27,17 @@ public class Slope : MonoBehaviour
 
     public Trial trial;
 
+    //Random words for slope names
+    List<string> slopeName1 = new List<string> { "Peak", "Ridge", "Summit", "Alpine", "Glacier", "Frost", "Crystal", "Powder", "Avalanche", "Blizzard", "Frostbite", "Slope", "Hillside", "Crest", "Drift", "Iceberg", "Frosty", "Frostbite", "Cold", "Whiteout", "Frosting", "Polar", "Arctic", "Freeze", "Blizzardy", "Icy", "Glacial", "Winter", "Tundra", "Hailstone", "Chilled", "Arctic", "Icicle", "Glaze", "Storm", "Icebound", "Chill", "Slush", "White", "Frozen", "Biting", "Glitter", "Bank", "Hoarfrost", "Wintry", "Subzero", "Shiver", "Sleet", "Glissade", "Icefall", "Bound", "Snowy", "Snowpack", "Mass", "Snowmelt", "Drift", "Line", "Sport", "Cat", "Capped", "Shoe", "Suit", "Mobile", "Bird", "Board", "Cone", "Plow" };
+    List<string> slopeName2 = new List<string> { "Run", "Slope", "Trail", "Slide", "Drop", "Descent", "Glide", "Path", "Way", "Course", "Track", "Route", "Line", "Passage", "Runway", "Journey", "Passage", "Downhill", "Decline", "Incline", "Ascent", "Climb", "Rise", "Descent", "Descent", "Trailblaze", "Trajectory", "Trajectory", "Route", "Traverse", "Course", "Journey", "Pathway", "Slope", "Downhill", "Incline", "Ascent", "Slide", "Glide", "Descent", "Drop", "Run", "Slope", "Trail", "Slide", "Drop", "Descent", "Glide", "Path", "Way", "Course", "Track", "Route", "Line", "Passage", "Runway", "Journey", "Passage", "Downhill", "Decline", "Incline", "Ascent", "Climb", "Rise", "Descent", "Descent", "Trailblaze", "Trajectory", "Trajectory", "Route", "Traverse", "Course", "Journey", "Pathway", "Slope", "Downhill", "Incline", "Ascent", "Slide", "Glide", "Descent", "Drop" };
+
     // Start is called before the first frame update
     void Start()
     {
         //spline = GetComponentInChildren<SplineComputer>();
-        colliderSpline.RebuildImmediate();
+        //colliderSpline.RebuildImmediate();
         spline.RebuildImmediate();
+        slopeName = slopeName1[Random.Range(0, slopeName1.Count)] + " " + slopeName2[Random.Range(0, slopeName2.Count)];
     }
 
     // Update is called once per frame
@@ -70,6 +80,14 @@ public class Slope : MonoBehaviour
 
         spline.SetPoints(pathPoints);
         spline.RebuildImmediate();
+
+        slopeStartPos = spline.EvaluatePosition(spline.Travel(0, 25));
+        startSign = Instantiate(signPrefab, slopeStartPos, Quaternion.identity);
+        startSign.gameObject.transform.parent = transform;
+
+        SplineSample ss = new SplineSample();
+        spline.Evaluate(1.0, ref ss);
+        
 
         //MeshCollider mc = colMesh.gameObject.AddComponent<MeshCollider>();
         //mc.sharedMesh = null;

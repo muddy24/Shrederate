@@ -17,6 +17,7 @@ public class TerrainMesh : MonoBehaviour
     public float persistence = .5f;
     public float lacunarity = 2;
     public float ridgeSmoothing = 0.5f;
+    public AnimationCurve edgeSmoothCurve;
     public float reshapeEdgeRadiusPercent = 1f; //radius of map edge as a percent of original mesh size
     public float bowlHeightPercent = 0.5f;
     public Vector2 noiseSeed = new Vector2();
@@ -122,12 +123,21 @@ public class TerrainMesh : MonoBehaviour
         //put player back on top of mountain
         if(player.transform.position.y < -0.25f * mapWidth * vectorSpacing)
         {
-            float halfMapSize = mapWidth * vectorSpacing / 2;
-            Rigidbody playerRB = player.GetComponent<PlayerMovement>().rb;
-            playerRB.transform.position = new Vector3(halfMapSize, noiseAmplitude * 1f, halfMapSize);
-            playerRB.velocity = Vector3.zero;
-            GameEvents.current.LapStart();
+            SpawnPlayerAtPeak();
         }
+    }
+
+    public void SpawnPlayerAtPeak()
+    {
+        /*float halfMapSize = mapWidth * vectorSpacing / 2;
+        Rigidbody playerRB = player.GetComponent<PlayerMovement>().rb;
+        playerRB.transform.position = new Vector3(halfMapSize, noiseAmplitude * 1f, halfMapSize);
+        playerRB.velocity = Vector3.zero;*/
+
+        Rigidbody playerRB = player.GetComponent<PlayerMovement>().rb;
+        playerRB.transform.position = peak + Vector3.up * 10;
+        playerRB.velocity = Vector3.zero;
+        GameEvents.current.LapStart();
     }
 
     //takes a list of all the slopes and levels the green and blue ones
@@ -262,7 +272,7 @@ public class TerrainMesh : MonoBehaviour
     public void GenerateTerrain()
     {
         noiseSeed = new Vector2(Random.Range(0, 1000), Random.Range(0, 1000));
-        float[,] heights = Noise.GenerateNoise(mapWidth+1, noiseScale, noiseSeed, octaves, persistence, lacunarity, ridgeSmoothing);
+        float[,] heights = Noise.GenerateNoise(mapWidth+1, noiseScale, noiseSeed, octaves, persistence, lacunarity, ridgeSmoothing, edgeSmoothCurve);
         int vertexIndex = 0;
 
         for(int y = 0; y <= mapWidth; y++)
